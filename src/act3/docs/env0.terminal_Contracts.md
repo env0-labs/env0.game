@@ -10,7 +10,7 @@ True north for the new baseline:
 
 ---
 
-# env0.terminal – Canonical Component Map (Source/Config Only)
+# env0.act3 – Canonical Component Map (Source/Config Only)
 
 > **Project Status: 2025-05-25**
 >
@@ -270,7 +270,7 @@ Standard return type for all commands. Encapsulates command output, error messag
 ### TerminalEngineAPI.cs — Contract
 
 **Purpose:**  
-Defines the public interface for the env0.terminal logic engine, for front-end (front-end), Playground, or any CLI/test harness.
+Defines the public interface for the env0.act3 logic engine, for front-end (front-end), Playground, or any CLI/test harness.
 
 **Responsibilities:**
 - Exposes all core functionality as public methods/events (e.g., `SendInput(string command)`, `GetPrompt()`, `GetOutput()`, `GetSessionState()`, etc.).

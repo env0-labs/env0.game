@@ -1,6 +1,6 @@
 # MILESTONES.md
 
-This document defines major project milestones for `env0.terminal`.
+This document defines major project milestones for `env0.act3`.
 Milestones 1a and 1b are strictly defined.
 Milestones 2+ are directional and may be revised as project needs evolve.
 

@@ -1,5 +1,5 @@
 
-# env0.terminal JSON Authoring Guide
+# env0.act3 JSON Authoring Guide
 
 ## 1. Filesystem JSON Structure
 
@@ -20,7 +20,7 @@
   "root": {
     "tutorial.txt": {
       "type": "file",
-      "content": "Welcome to env0.terminal! Try commands like ls, cd, cat, and help."
+      "content": "Welcome to env0.act3! Try commands like ls, cd, cat, and help."
     },
     "docs": {
       "readme.txt": {
@@ -165,4 +165,4 @@
 
 ---
 
-*Stick to this structure and your env0.terminal content will load perfectly, every time!*
+*Stick to this structure and your env0.act3 content will load perfectly, every time!*

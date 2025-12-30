@@ -1,4 +1,4 @@
-# env0.terminal - Architecture (Baseline)
+# env0.act3 - Architecture (Baseline)
 
 This document defines the target architecture for the new baseline. It is the "true north" for refactors and new work.
 
@@ -89,4 +89,4 @@ Use an interface for injection in tests and alternate hosts:
 
 - The current `TerminalEngineAPI` is a monolith and will be split into flows and context state.
 - Tests should move toward validating flows and state transitions rather than string matching where possible.
-- Historical contracts in `docs/env0.terminal_REFERENCE.md` and `docs/env0.terminal_Contracts.md` are retained for context only until updated.
+- Historical contracts in `docs/env0.act3_REFERENCE.md` and `docs/env0.act3_Contracts.md` are retained for context only until updated.

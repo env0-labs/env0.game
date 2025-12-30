@@ -1,4 +1,4 @@
-# env0.terminal - Project Overview
+# env0.act3 - Project Overview
 
 ---
 
@@ -10,7 +10,7 @@ This repository is a fresh baseline. Prior experiments are preserved as historic
 
 ## What Is This?
 
-env0.terminal is a pure C# logic engine for simulating a fully modular, authentic Linux-style terminal.
+env0.act3 is a pure C# logic engine for simulating a fully modular, authentic Linux-style terminal.
 It is designed as a black-box DLL for consumption by any front end (CLI, custom UI, etc.), powering narrative, puzzle, or adventure games.
 
 - No UI or rendering is included.
@@ -54,7 +54,7 @@ It is designed as a black-box DLL for consumption by any front end (CLI, custom 
 
 ## Philosophy
 
-env0.terminal is designed for maintainability, strict separation of concerns, and creative extensibility.
+env0.act3 is designed for maintainability, strict separation of concerns, and creative extensibility.
 If you are unsure whether a feature belongs here, ask:
 "Is it pure terminal logic, or is it presentation/front-end?"
 If in doubt, leave it out.

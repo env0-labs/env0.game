@@ -3,14 +3,14 @@ Volume serial number is DE64-D8DF
 D:.
 |   .editorconfig
 |   .gitignore
-|   env0.terminal.sln
-|   env0.terminal.sln.DotSettings.user
+|   env0.act3.sln
+|   env0.act3.sln.DotSettings.user
 |   README.md
 |   structure.txt
 |   terminal_codebase.zip
 |   
 +---.idea
-|   \---.idea.Env0.Terminal
+|   \---.idea.env0.act3
 |       \---.idea
 |               .gitignore
 |               .name
@@ -20,26 +20,26 @@ D:.
 |               workspace.xml
 |               
 +---docs
-|   |   env0.terminal_Contracts.md
-|   |   env0.terminal_Milestones.md
-|   |   env0.terminal_Overview.md
-|   |   env0.terminal_Q&A.txt
-|   |   env0.terminal_REFERENCE.md
-|   |   env0.terminal_Test.Suite.md
+|   |   env0.act3_Contracts.md
+|   |   env0.act3_Milestones.md
+|   |   env0.act3_Overview.md
+|   |   env0.act3_Q&A.txt
+|   |   env0.act3_REFERENCE.md
+|   |   env0.act3_Test.Suite.md
 |   |   logins.md
 |   |   
 |   \---archive
-|           env0.terminal_tasklist.md
+|           env0.act3_tasklist.md
 |           
-+---Env0.Terminal
-|   |   Env0.Terminal.csproj
++---env0.act3
+|   |   env0.act3.csproj
 |   |   
 |   +---bin
 |   |   \---Debug
 |   |       \---net9.0
-|   |           |   Env0.Terminal.deps.json
-|   |           |   Env0.Terminal.dll
-|   |           |   Env0.Terminal.pdb
+|   |           |   env0.act3.deps.json
+|   |           |   env0.act3.dll
+|   |           |   env0.act3.pdb
 |   |           |   
 |   |           \---Config
 |   |               \---Jsons
@@ -91,9 +91,9 @@ D:.
 |   |       NetworkManager.cs
 |   |       
 |   +---obj
-|   |   |   Env0.Terminal.csproj.nuget.dgspec.json
-|   |   |   Env0.Terminal.csproj.nuget.g.props
-|   |   |   Env0.Terminal.csproj.nuget.g.targets
+|   |   |   env0.act3.csproj.nuget.dgspec.json
+|   |   |   env0.act3.csproj.nuget.g.props
+|   |   |   env0.act3.csproj.nuget.g.targets
 |   |   |   project.assets.json
 |   |   |   project.nuget.cache
 |   |   |   project.packagespec.json
@@ -103,23 +103,23 @@ D:.
 |   |   \---Debug
 |   |       \---net9.0
 |   |           |   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
-|   |           |   Env0.Terminal.AssemblyInfo.cs
-|   |           |   Env0.Terminal.AssemblyInfoInputs.cache
-|   |           |   Env0.Terminal.assets.cache
-|   |           |   Env0.Terminal.csproj.AssemblyReference.cache
-|   |           |   Env0.Terminal.csproj.CoreCompileInputs.cache
-|   |           |   Env0.Terminal.csproj.FileListAbsolute.txt
-|   |           |   Env0.Terminal.dll
-|   |           |   Env0.Terminal.GeneratedMSBuildEditorConfig.editorconfig
-|   |           |   Env0.Terminal.GlobalUsings.g.cs
-|   |           |   Env0.Terminal.pdb
-|   |           |   Env0.Terminal.sourcelink.json
+|   |           |   env0.act3.AssemblyInfo.cs
+|   |           |   env0.act3.AssemblyInfoInputs.cache
+|   |           |   env0.act3.assets.cache
+|   |           |   env0.act3.csproj.AssemblyReference.cache
+|   |           |   env0.act3.csproj.CoreCompileInputs.cache
+|   |           |   env0.act3.csproj.FileListAbsolute.txt
+|   |           |   env0.act3.dll
+|   |           |   env0.act3.GeneratedMSBuildEditorConfig.editorconfig
+|   |           |   env0.act3.GlobalUsings.g.cs
+|   |           |   env0.act3.pdb
+|   |           |   env0.act3.sourcelink.json
 |   |           |   
 |   |           +---ref
-|   |           |       Env0.Terminal.dll
+|   |           |       env0.act3.dll
 |   |           |       
 |   |           \---refint
-|   |                   Env0.Terminal.dll
+|   |                   env0.act3.dll
 |   |                   
 |   \---Terminal
 |       |   CommandHandler.cs
@@ -144,20 +144,20 @@ D:.
 |               SshCommand.cs
 |               SudoCommand.cs
 |               
-+---Env0.Terminal.Playground
-|   |   Env0.Terminal.Playground.csproj
++---env0.act3.Playground
+|   |   env0.act3.Playground.csproj
 |   |   Program.cs
 |   |   
 |   +---bin
 |   |   \---Debug
 |   |       \---net9.0
-|   |           |   Env0.Terminal.dll
-|   |           |   Env0.Terminal.pdb
-|   |           |   Env0.Terminal.Playground.deps.json
-|   |           |   Env0.Terminal.Playground.dll
-|   |           |   Env0.Terminal.Playground.exe
-|   |           |   Env0.Terminal.Playground.pdb
-|   |           |   Env0.Terminal.Playground.runtimeconfig.json
+|   |           |   env0.act3.dll
+|   |           |   env0.act3.pdb
+|   |           |   env0.act3.Playground.deps.json
+|   |           |   env0.act3.Playground.dll
+|   |           |   env0.act3.Playground.exe
+|   |           |   env0.act3.Playground.pdb
+|   |           |   env0.act3.Playground.runtimeconfig.json
 |   |           |   Newtonsoft.Json.dll
 |   |           |   
 |   |           +---Config
@@ -182,9 +182,9 @@ D:.
 |   |           |               
 |   |           \---Filesystems
 |   \---obj
-|       |   Env0.Terminal.Playground.csproj.nuget.dgspec.json
-|       |   Env0.Terminal.Playground.csproj.nuget.g.props
-|       |   Env0.Terminal.Playground.csproj.nuget.g.targets
+|       |   env0.act3.Playground.csproj.nuget.dgspec.json
+|       |   env0.act3.Playground.csproj.nuget.g.props
+|       |   env0.act3.Playground.csproj.nuget.g.targets
 |       |   project.assets.json
 |       |   project.nuget.cache
 |       |   project.packagespec.json
@@ -196,40 +196,40 @@ D:.
 |               |   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
 |               |   apphost.exe
 |               |   Env0.Ter.C0924D10.Up2Date
-|               |   Env0.Terminal.Playground.AssemblyInfo.cs
-|               |   Env0.Terminal.Playground.AssemblyInfoInputs.cache
-|               |   Env0.Terminal.Playground.assets.cache
-|               |   Env0.Terminal.Playground.csproj.AssemblyReference.cache
-|               |   Env0.Terminal.Playground.csproj.CoreCompileInputs.cache
-|               |   Env0.Terminal.Playground.csproj.FileListAbsolute.txt
-|               |   Env0.Terminal.Playground.dll
-|               |   Env0.Terminal.Playground.GeneratedMSBuildEditorConfig.editorconfig
-|               |   Env0.Terminal.Playground.genruntimeconfig.cache
-|               |   Env0.Terminal.Playground.GlobalUsings.g.cs
-|               |   Env0.Terminal.Playground.pdb
-|               |   Env0.Terminal.Playground.sourcelink.json
+|               |   env0.act3.Playground.AssemblyInfo.cs
+|               |   env0.act3.Playground.AssemblyInfoInputs.cache
+|               |   env0.act3.Playground.assets.cache
+|               |   env0.act3.Playground.csproj.AssemblyReference.cache
+|               |   env0.act3.Playground.csproj.CoreCompileInputs.cache
+|               |   env0.act3.Playground.csproj.FileListAbsolute.txt
+|               |   env0.act3.Playground.dll
+|               |   env0.act3.Playground.GeneratedMSBuildEditorConfig.editorconfig
+|               |   env0.act3.Playground.genruntimeconfig.cache
+|               |   env0.act3.Playground.GlobalUsings.g.cs
+|               |   env0.act3.Playground.pdb
+|               |   env0.act3.Playground.sourcelink.json
 |               |   
 |               +---ref
-|               |       Env0.Terminal.Playground.dll
+|               |       env0.act3.Playground.dll
 |               |       
 |               \---refint
-|                       Env0.Terminal.Playground.dll
+|                       env0.act3.Playground.dll
 |                       
-\---Env0.Terminal.Tests
-    |   Env0.Terminal.Tests.csproj
+\---env0.act3.Tests
+    |   env0.act3.Tests.csproj
     |   UnitTest1.cs
     |   
     +---bin
     |   \---Debug
     |       \---net9.0
-    |           |   .msCoverageSourceRootsMapping_Env0.Terminal.Tests
-    |           |   CoverletSourceRootsMapping_Env0.Terminal.Tests
-    |           |   Env0.Terminal.dll
-    |           |   Env0.Terminal.pdb
-    |           |   Env0.Terminal.Tests.deps.json
-    |           |   Env0.Terminal.Tests.dll
-    |           |   Env0.Terminal.Tests.pdb
-    |           |   Env0.Terminal.Tests.runtimeconfig.json
+    |           |   .msCoverageSourceRootsMapping_env0.act3.Tests
+    |           |   CoverletSourceRootsMapping_env0.act3.Tests
+    |           |   env0.act3.dll
+    |           |   env0.act3.pdb
+    |           |   env0.act3.Tests.deps.json
+    |           |   env0.act3.Tests.dll
+    |           |   env0.act3.Tests.pdb
+    |           |   env0.act3.Tests.runtimeconfig.json
     |           |   Microsoft.TestPlatform.CommunicationUtilities.dll
     |           |   Microsoft.TestPlatform.CoreUtilities.dll
     |           |   Microsoft.TestPlatform.CrossPlatEngine.dll
@@ -389,9 +389,9 @@ D:.
     |                   Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll
     |                   
     +---obj
-    |   |   Env0.Terminal.Tests.csproj.nuget.dgspec.json
-    |   |   Env0.Terminal.Tests.csproj.nuget.g.props
-    |   |   Env0.Terminal.Tests.csproj.nuget.g.targets
+    |   |   env0.act3.Tests.csproj.nuget.dgspec.json
+    |   |   env0.act3.Tests.csproj.nuget.g.props
+    |   |   env0.act3.Tests.csproj.nuget.g.targets
     |   |   project.assets.json
     |   |   project.nuget.cache
     |   |   project.packagespec.json
@@ -402,24 +402,24 @@ D:.
     |       \---net9.0
     |           |   .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
     |           |   Env0.Ter.7B76FE7C.Up2Date
-    |           |   Env0.Terminal.Tests.AssemblyInfo.cs
-    |           |   Env0.Terminal.Tests.AssemblyInfoInputs.cache
-    |           |   Env0.Terminal.Tests.assets.cache
-    |           |   Env0.Terminal.Tests.csproj.AssemblyReference.cache
-    |           |   Env0.Terminal.Tests.csproj.CoreCompileInputs.cache
-    |           |   Env0.Terminal.Tests.csproj.FileListAbsolute.txt
-    |           |   Env0.Terminal.Tests.dll
-    |           |   Env0.Terminal.Tests.GeneratedMSBuildEditorConfig.editorconfig
-    |           |   Env0.Terminal.Tests.genruntimeconfig.cache
-    |           |   Env0.Terminal.Tests.GlobalUsings.g.cs
-    |           |   Env0.Terminal.Tests.pdb
-    |           |   Env0.Terminal.Tests.sourcelink.json
+    |           |   env0.act3.Tests.AssemblyInfo.cs
+    |           |   env0.act3.Tests.AssemblyInfoInputs.cache
+    |           |   env0.act3.Tests.assets.cache
+    |           |   env0.act3.Tests.csproj.AssemblyReference.cache
+    |           |   env0.act3.Tests.csproj.CoreCompileInputs.cache
+    |           |   env0.act3.Tests.csproj.FileListAbsolute.txt
+    |           |   env0.act3.Tests.dll
+    |           |   env0.act3.Tests.GeneratedMSBuildEditorConfig.editorconfig
+    |           |   env0.act3.Tests.genruntimeconfig.cache
+    |           |   env0.act3.Tests.GlobalUsings.g.cs
+    |           |   env0.act3.Tests.pdb
+    |           |   env0.act3.Tests.sourcelink.json
     |           |   
     |           +---ref
-    |           |       Env0.Terminal.Tests.dll
+    |           |       env0.act3.Tests.dll
     |           |       
     |           \---refint
-    |                   Env0.Terminal.Tests.dll
+    |                   env0.act3.Tests.dll
     |                   
     +---PsychoticTests
     |       CommandParser_PsychoticBrody.cs

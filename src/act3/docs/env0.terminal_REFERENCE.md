@@ -88,7 +88,7 @@ These are **not bugs**—they are known, accepted deviations from “real Linux�
 
 ## Project Roles & Boundaries
 
-- **env0.terminal** is a *pure C#* logic engine.
+- **env0.act3** is a *pure C#* logic engine.
 - All terminal, command, filesystem, and network logic is handled here.
 - No visual/UI, audio, or front-end responsibilities—these are for front-end or any other consumer via DLL.
 - **Milestone 1 goal:** *Fully functional, Linux-style virtual terminal with local username assignment (no local authentication), SSH (with authentication), strict navigation, JSON-driven filesystems, and a clean CLI command system.*
@@ -106,7 +106,7 @@ Strictly enforced for all core and feature work:
     - Regularly interrogate and expand hostile test coverage
 5. Modify for user test in Playground (manual verification, if relevant)
 6. Commit once happy (atomic, meaningful commit; no “test/fix/test/fix” in main)
-7. Update the Tasklist (env0.terminal_tasklist.md)
+7. Update the Tasklist (env0.act3_tasklist.md)
 
 ---
 
