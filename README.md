@@ -18,16 +18,16 @@ intentionally minimal, procedural, and slow.
 The project is a single solution with multiple modules:
 
     env0.game
-    ├─ src
-    │  ├─ core
-    │  │  └─ Env0.Core          # Shared contracts only (no behavior)
-    │  ├─ act1                  # Placeholder (planned)
-    │  ├─ act2                  # Records / bureaucratic interpretation
-    │  ├─ act3                  # Terminal / config inspection & patching
-    │  ├─ act4                  # Placeholder (planned)
-    │  └─ runner                # Top-level runner / act selector
-    ├─ tests
-    └─ env0.game.sln
+    +-- src
+    |  +-- core
+    |  |  +-- Env0.Core          # Shared contracts only (no behavior)
+    |  +-- act1                  # Placeholder
+    |  +-- act2                  # Records / bureaucratic interpretation
+    |  +-- act3                  # Terminal / config inspection & patching
+    |  +-- act4                  # Placeholder
+    |  +-- runner                # Top-level runner / act selector
+    +-- tests
+    +-- env0.game.sln
 
 ### Core
 
@@ -41,8 +41,7 @@ There is no narrative logic and no IO in Core.
 
 ### Acts
 
-Each `actX` folder contains (or will contain) a self-contained module
-that:
+Each `actX` folder contains a self-contained module that:
 
 - Implements `IActModule`
 - Owns its own behavior and state transitions
@@ -50,13 +49,12 @@ that:
 
 Current status:
 
-- Act 1: folder exists, no implementation yet
+- Act 1: placeholder folder exists
 - Act 2: module (`Act2Module`) exists and is wired to the runner; a
-  standalone console `Program.cs` still exists while migration
-  continues
+  standalone console `Program.cs` also exists
 - Act 3: module (`Act3Module`) exists; includes a standalone playground
   app and internal docs
-- Act 4: folder exists, no implementation yet
+- Act 4: placeholder folder exists
 
 ### Runner
 
@@ -71,7 +69,7 @@ The runner enforces no game rules.
 
 ------------------------------------------------------------------------
 
-## Architectural Principles (Target Design)
+## Architectural Principles
 
 - Core owns contracts, not behavior
 - Acts own behavior, not wiring
@@ -88,9 +86,6 @@ No runner should:
 - Enforce act-specific rules
 - Interpret command meaning
 - Contain narrative logic
-
-Note: Act 2 still has a standalone console entry point; the goal is to
-complete its migration into the shared Core/Runner model.
 
 ------------------------------------------------------------------------
 
@@ -143,12 +138,8 @@ This avoids:
 
 ------------------------------------------------------------------------
 
-## Development Notes
+## Development Practices
 
-- Act 1 is planned only and not yet implemented.
-- Act 2 and Act 3 are being consolidated into the shared Core/Runner
-  architecture.
-- Act 4 is planned and not yet integrated.
 - Large refactors should be done by porting, not stripping, where
   possible.
 - Shared utilities should only be moved into Core once multiple acts
@@ -178,7 +169,7 @@ Everything works.
 
 Active development.
 
-- Act 1: planned (not yet implemented)
-- Act 2: module wired to runner; standalone console entry still present
+- Act 1: placeholder folder
+- Act 2: module wired to runner; standalone console entry present
 - Act 3: module wired to runner; tests and playground present
-- Act 4: planned
+- Act 4: placeholder folder
