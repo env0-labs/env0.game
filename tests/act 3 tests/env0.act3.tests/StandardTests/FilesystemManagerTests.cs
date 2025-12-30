@@ -3,6 +3,7 @@ using Xunit;
 using System.Collections.Generic;
 using Env0.Act3.Config.Pocos;
 using Env0.Act3.Filesystem;
+using Env0.Act3.Tests;
 
 [Trait("TestType", "Critical")]
 public class FilesystemManagerTests
@@ -219,8 +220,8 @@ public void ChangeDirectory_CaseInsensitive_Works()
 
     string error;
 
-Console.WriteLine($"Root children: {string.Join(", ", root.Children.Keys)}");
-Console.WriteLine($"Current dir: {fs.CurrentDirectoryName()}");
+TestOutput.WriteLine($"Root children: {string.Join(", ", root.Children.Keys)}");
+TestOutput.WriteLine($"Current dir: {fs.CurrentDirectoryName()}");
 
 
     // Use intentionally weird casing to prove lookups are case-insensitive
@@ -236,8 +237,8 @@ Console.WriteLine($"Current dir: {fs.CurrentDirectoryName()}");
     Assert.True(fs.ChangeDirectory("/Etc", out error));
     Assert.Equal("etc", fs.CurrentDirectoryName());
 
-    Console.WriteLine($"Root children: {string.Join(", ", root.Children.Keys)}");
-    Console.WriteLine($"Current dir: {fs.CurrentDirectoryName()}");
+    TestOutput.WriteLine($"Root children: {string.Join(", ", root.Children.Keys)}");
+    TestOutput.WriteLine($"Current dir: {fs.CurrentDirectoryName()}");
 }
 
 [Fact]

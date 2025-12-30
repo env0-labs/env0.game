@@ -1,6 +1,8 @@
 using System;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
+using Env0.Act3;
+using Env0.Core;
+using env0.act2;
 
 namespace Env0.Runner
 {
@@ -37,16 +39,10 @@ namespace Env0.Runner
                         Console.WriteLine("Act 1 runner is a placeholder for now.");
                         break;
                     case "2":
-                        RunProject(ProjectLaunch.Create(
-                            @"src\act2\env0.act2.csproj",
-                            "env0.act2.dll",
-                            "net8.0"));
+                        RunModule(new Act2Module());
                         break;
                     case "3":
-                        RunProject(ProjectLaunch.Create(
-                            @"src\act3\env0.act3.playground\Env0.Act3.Playground.csproj",
-                            "Env0.Act3.Playground.dll",
-                            "net8.0"));
+                        RunModule(new Act3Module());
                         break;
                     case "4":
                         Console.WriteLine("Act 4 runner is a placeholder for now.");
@@ -60,128 +56,46 @@ namespace Env0.Runner
             }
         }
 
-        private static void RunProject(ProjectLaunch launch)
+        private static void RunModule(IActModule module)
         {
-            var repoRoot = FindRepoRoot();
-            var projectFullPath = Path.Combine(repoRoot, launch.ProjectPath);
-            var projectDir = Path.GetDirectoryName(projectFullPath) ?? repoRoot;
+            var originalDirectory = Environment.CurrentDirectory;
+            Environment.CurrentDirectory = AppContext.BaseDirectory;
+            var session = new SessionState();
+            PrintOutput(module.Handle(string.Empty, session));
 
-            var outputDir = Path.Combine(projectDir, "bin", "Debug", launch.TargetFramework);
-            var outputDll = Path.Combine(outputDir, launch.OutputDllName);
+            while (!session.IsComplete)
+            {
+                var input = Console.ReadLine();
+                if (input == null)
+                {
+                    session.IsComplete = true;
+                    break;
+                }
 
-            if (!BuildProject(projectFullPath, repoRoot))
+                PrintOutput(module.Handle(input, session));
+            }
+
+            Environment.CurrentDirectory = originalDirectory;
+        }
+
+        private static void PrintOutput(IEnumerable<OutputLine> lines)
+        {
+            if (lines == null)
             {
                 return;
             }
 
-            if (!File.Exists(outputDll))
+            foreach (var line in lines)
             {
-                Console.WriteLine("Build succeeded but output DLL not found: " + outputDll);
-                return;
-            }
-
-            var psi = new ProcessStartInfo("dotnet")
-            {
-                WorkingDirectory = outputDir,
-                UseShellExecute = false,
-                RedirectStandardOutput = false,
-                RedirectStandardError = false,
-                RedirectStandardInput = false
-            };
-
-            psi.ArgumentList.Add(outputDll);
-
-            Console.WriteLine("Running: dotnet " + outputDll);
-            using var process = Process.Start(psi);
-            if (process == null)
-            {
-                Console.WriteLine("Failed to start dotnet.");
-                return;
-            }
-            process.WaitForExit();
-
-            Console.WriteLine("Exit code: " + process.ExitCode);
-        }
-
-        private static bool BuildProject(string projectPath, string repoRoot)
-        {
-            var psi = new ProcessStartInfo("dotnet")
-            {
-                WorkingDirectory = repoRoot,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true
-            };
-
-            psi.ArgumentList.Add("build");
-            psi.ArgumentList.Add(projectPath);
-            psi.ArgumentList.Add("-c");
-            psi.ArgumentList.Add("Debug");
-
-            Console.WriteLine("Building: dotnet build " + projectPath + " -c Debug");
-            using var process = Process.Start(psi);
-            if (process == null)
-            {
-                Console.WriteLine("Failed to start dotnet build.");
-                return false;
-            }
-
-            process.OutputDataReceived += (_, e) =>
-            {
-                if (e.Data != null)
+                var text = line.Text ?? string.Empty;
+                if (line.NewLine)
                 {
-                    Console.WriteLine(e.Data);
+                    Console.WriteLine(text);
                 }
-            };
-            process.ErrorDataReceived += (_, e) =>
-            {
-                if (e.Data != null)
+                else
                 {
-                    Console.Error.WriteLine(e.Data);
+                    Console.Write(text);
                 }
-            };
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            process.WaitForExit();
-
-            Console.WriteLine("Build exit code: " + process.ExitCode);
-            return process.ExitCode == 0;
-        }
-
-        private static string FindRepoRoot()
-        {
-            var dir = new DirectoryInfo(AppContext.BaseDirectory);
-            while (dir != null)
-            {
-                var slnPath = Path.Combine(dir.FullName, "env0.game.sln");
-                if (File.Exists(slnPath))
-                {
-                    return dir.FullName;
-                }
-
-                dir = dir.Parent;
-            }
-
-            return Directory.GetCurrentDirectory();
-        }
-
-        private readonly struct ProjectLaunch
-        {
-            private ProjectLaunch(string projectPath, string outputDllName, string targetFramework)
-            {
-                ProjectPath = projectPath;
-                OutputDllName = outputDllName;
-                TargetFramework = targetFramework;
-            }
-
-            public string ProjectPath { get; }
-            public string OutputDllName { get; }
-            public string TargetFramework { get; }
-
-            public static ProjectLaunch Create(string projectPath, string outputDllName, string targetFramework)
-            {
-                return new ProjectLaunch(projectPath, outputDllName, targetFramework);
             }
         }
     }

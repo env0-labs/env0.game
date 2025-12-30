@@ -6,9 +6,9 @@ using Env0.Act3.Filesystem;
 using Env0.Act3.Config.Pocos;
 using Env0.Act3.Config;
 using Env0.Act3.API_DTOs;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Env0.Act3.Tests;
 
 namespace Env0.Act3.Tests.Commands
 {
@@ -72,7 +72,7 @@ namespace Env0.Act3.Tests.Commands
             var result = command.Execute(session, new[] { "10.10.10.0/24" });
 
             // Debug print
-            Console.WriteLine($"[NMAP OUTPUT]\n{result.Output}");
+            TestOutput.WriteLine($"[NMAP OUTPUT]\n{result.Output}");
 
             Assert.NotNull(result);
             Assert.Contains("host1", result.Output);

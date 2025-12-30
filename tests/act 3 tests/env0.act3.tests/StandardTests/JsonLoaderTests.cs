@@ -270,7 +270,7 @@ namespace Env0.Act3.Tests
                 var fs = JsonLoader.LoadFilesystem(path, out var errors);
 
                 foreach (var e in errors)
-                    System.Console.WriteLine($"Loader error: {e}");
+                    TestOutput.WriteLine($"Loader error: {e}");
 
                 Assert.NotNull(fs);
                 Assert.True(errors.Any(e => e.Contains("missing 'content'")), "Expected missing content error.");
