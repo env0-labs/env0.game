@@ -1,10 +1,10 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using env0.adventure.Engine;
-using env0.adventure.Model;
-using env0.adventure.Runtime;
+using env0.act2.Engine;
+using env0.act2.Model;
+using env0.act2.Runtime;
 
-Console.WriteLine("env0.adventure booting");
+Console.WriteLine("env0.act2 booting");
 Console.WriteLine();
 
 // ------------------------------------------------------------------

@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.adventure.csproj": {}
+    "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.act2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.adventure.csproj": {
+    "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.act2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.adventure.csproj",
-        "projectName": "env0.adventure",
-        "projectPath": "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.adventure.csproj",
+        "projectUniqueName": "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.act2.csproj",
+        "projectName": "env0.act2",
+        "projectPath": "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\env0.act2.csproj",
         "packagesPath": "C:\\Users\\ewan\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\ewan\\Desktop\\env0\\env0.game\\src\\act2\\obj\\",
         "projectStyle": "PackageReference",

@@ -1,7 +1,7 @@
-﻿using env0.adventure.Model;
-using env0.adventure.Runtime;
+using env0.act2.Model;
+using env0.act2.Runtime;
 
-namespace env0.adventure.Engine;
+namespace env0.act2.Engine;
 
 public sealed class ChoiceEvaluator
 {

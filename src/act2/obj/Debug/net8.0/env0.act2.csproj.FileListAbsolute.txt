@@ -1,0 +1,16 @@
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\story\newcalifornia.json
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\story\story.json
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\env0.act2.exe
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\env0.act2.deps.json
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\env0.act2.runtimeconfig.json
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\env0.act2.dll
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\bin\Debug\net8.0\env0.act2.pdb
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.AssemblyInfoInputs.cache
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.AssemblyInfo.cs
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.csproj.CoreCompileInputs.cache
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.dll
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\refint\env0.act2.dll
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.pdb
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\env0.act2.genruntimeconfig.cache
+C:\Users\ewan\Desktop\env0\env0.game\src\act2\obj\Debug\net8.0\ref\env0.act2.dll

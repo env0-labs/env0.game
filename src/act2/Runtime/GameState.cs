@@ -1,4 +1,4 @@
-﻿namespace env0.adventure.Runtime;
+namespace env0.act2.Runtime;
 
 public sealed class GameState
 {

@@ -1,4 +1,4 @@
-﻿namespace env0.adventure.Model;
+namespace env0.act2.Model;
 
 public enum EffectType
 {

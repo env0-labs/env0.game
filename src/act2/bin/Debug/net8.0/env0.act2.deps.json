@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "env0.adventure/1.0.0": {
+      "env0.act2/1.0.0": {
         "runtime": {
-          "env0.adventure.dll": {}
+          "env0.act2.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "env0.adventure/1.0.0": {
+    "env0.act2/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
