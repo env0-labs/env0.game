@@ -1,1 +1,0 @@
-This is not JSON, it is plain text.
