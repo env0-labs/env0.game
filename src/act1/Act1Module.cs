@@ -5,11 +5,17 @@ namespace env0.act1;
 public sealed class Act1Module : IActModule
 {
     private readonly int[] _containerSizes = { 7, 6, 5, 12, 4, 8 };
+    private readonly Random _rng = new(1977);
+    private const string ScriptTag = "kill-child";
     private int _containerSizeIndex;
     private bool _initialized;
     private int _parentIndex = 1;
     private int? _parentSize;
     private int _processedCount;
+    private int _containersCompletedSinceBatch;
+    private int _batchesCompleted;
+    private bool _batchPromptActive;
+    private bool _batchPromptDismissed;
 
     public IEnumerable<OutputLine> Handle(string input, SessionState state)
     {
@@ -24,6 +30,12 @@ public sealed class Act1Module : IActModule
             AddLine(output, "env0.act1 booting");
             AddLine(output, string.Empty);
             AddPrompt(output);
+            return output;
+        }
+
+        if (_batchPromptActive)
+        {
+            HandleBatchPrompt(input, state, output);
             return output;
         }
 
@@ -59,28 +71,29 @@ public sealed class Act1Module : IActModule
         if (_parentSize == null)
             return;
 
-        AddLine(output, "PROCESSING");
-        AddLine(output, string.Empty);
+        AppendProcessHeader(output);
+        AppendScriptLog(output);
 
         if (_processedCount < _parentSize.Value)
             _processedCount++;
 
-        AddLine(output, "Batch continued.");
-        AddLine(output, "Child process terminated.");
-        AddLine(output, string.Empty);
-
         if (_processedCount >= _parentSize.Value)
         {
-            AddLine(output, "Parent container completed.");
-            AddLine(output, "New parent container assigned.");
+            AddLine(output, PhraseBank.Pick(PhraseBank.ParentCompleted, _rng));
+            AddLine(output, PhraseBank.Pick(PhraseBank.ParentAssigned, _rng));
             _parentIndex++;
             _parentSize = null;
             _processedCount = 0;
             AddLine(output, string.Empty);
-        }
 
-        AddLine(output, "Queue updated.");
-        AddLine(output, string.Empty);
+            _containersCompletedSinceBatch++;
+            if (!_batchPromptDismissed && _containersCompletedSinceBatch >= 5)
+            {
+                AddLine(output, "Batch completed containers? (y/n)");
+                AddPrompt(output);
+                _batchPromptActive = true;
+            }
+        }
     }
 
     private void EnsureParentSize()
@@ -144,5 +157,155 @@ public sealed class Act1Module : IActModule
     private static void AddPrompt(List<OutputLine> output)
     {
         output.Add(new OutputLine(OutputType.Standard, "> ", newLine: false));
+    }
+
+    private void HandleBatchPrompt(string input, SessionState state, List<OutputLine> output)
+    {
+        var trimmed = (input ?? string.Empty).Trim();
+        if (trimmed.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            _batchesCompleted++;
+            _containersCompletedSinceBatch = 0;
+            _batchPromptActive = false;
+            AddLine(output, "Batch recorded.");
+
+            if (_batchesCompleted >= 3)
+            {
+                AddLine(output, "Batch threshold reached.");
+                state.IsComplete = true;
+                return;
+            }
+
+            AddLine(output, string.Empty);
+            AddPrompt(output);
+            return;
+        }
+
+        if (trimmed.Equals("n", StringComparison.OrdinalIgnoreCase))
+        {
+            _batchPromptActive = false;
+            _batchPromptDismissed = true;
+            AddLine(output, "Batch dismissed.");
+            AddLine(output, string.Empty);
+            AddPrompt(output);
+            return;
+        }
+
+        AddLine(output, "Unrecognised input. Accepted input: y / n");
+        AddLine(output, string.Empty);
+        AddPrompt(output);
+    }
+
+    private void AppendProcessHeader(List<OutputLine> output)
+    {
+        AddLine(output, PhraseBank.Pick(PhraseBank.ProcessStep, _rng));
+    }
+
+    private void AppendScriptLog(List<OutputLine> output)
+    {
+        var tag = ScriptTag;
+        AddLine(output, $"[{tag}] start");
+
+        var steps = PhraseBank.GetScriptSteps(_rng, tag);
+        foreach (var step in steps)
+        {
+            AddLine(output, step);
+        }
+
+        AddLine(output, $"[{tag}] done");
+        AddLine(output, string.Empty);
+    }
+
+    private static class PhraseBank
+    {
+        public static readonly string[] ProcessStep =
+        {
+            "PROCESSING",
+            "PROCESSING",
+            "PROCESSING"
+        };
+
+        private static readonly string[] ScriptStepKeys =
+        {
+            "preflight",
+            "lock",
+            "execute",
+            "commit",
+            "cleanup",
+            "unlock",
+            "flush",
+            "finalize"
+        };
+
+        public static readonly string[] ParentCompleted =
+        {
+            "Parent container completed.",
+            "Parent container closed.",
+            "Parent container finalised."
+        };
+
+        public static readonly string[] ParentAssigned =
+        {
+            "New parent container assigned.",
+            "New parent container allocated.",
+            "New parent container initialised."
+        };
+
+        public static string Pick(string[] pool, Random rng)
+        {
+            return pool[rng.Next(pool.Length)];
+        }
+
+        public static List<string> GetScriptSteps(Random rng, string tag)
+        {
+            var count = rng.Next(2, 6);
+            var selected = new List<string>(count);
+            var available = new List<string>(ScriptStepKeys);
+
+            for (var i = 0; i < count; i++)
+            {
+                var index = rng.Next(available.Count);
+                selected.Add(available[index]);
+                available.RemoveAt(index);
+            }
+
+            selected = OrderSteps(selected);
+
+            var lines = new List<string>(selected.Count);
+            foreach (var step in selected)
+            {
+                lines.Add($"[{tag}] {step}");
+            }
+
+            return lines;
+        }
+
+        private static List<string> OrderSteps(List<string> steps)
+        {
+            if (steps.Count <= 1)
+                return steps;
+
+            if (steps.Contains("lock") && steps.Contains("unlock"))
+            {
+                steps.Remove("lock");
+                steps.Remove("unlock");
+                steps.Insert(0, "lock");
+                steps.Add("unlock");
+            }
+
+            if (steps.Contains("preflight"))
+            {
+                steps.Remove("preflight");
+                steps.Insert(0, "preflight");
+            }
+
+            if (steps.Contains("finalize"))
+            {
+                steps.Remove("finalize");
+                steps.Add("finalize");
+            }
+
+            return steps;
+        }
     }
 }
