@@ -16,6 +16,12 @@ the repo, it should be reflected in README.md.
 
 ## Act 1 - Maintenance (In Progress)
 
+### Current Implementation
+- `process` uses a script-style log with controlled variation.
+- `status` prints the container view only.
+- After 5 parent containers complete, a one-time batch confirmation gate appears
+  (`y` records, `n` dismisses; 3 batches end the act).
+
 ### Purpose
 Act 1 establishes compliance through repetition: the player performs procedural work
 correctly, without understanding, until language becomes invisible and obligation
