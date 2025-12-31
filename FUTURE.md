@@ -1,164 +1,249 @@
 # FUTURE
 
-This document describes intended future state, design constraints, and non-binding plans.
-Nothing in this file is guaranteed to be implemented. If something here becomes true in
-the repo, it should be reflected in README.md.
+This document describes the intended future shape of the project, its operating model,
+and its design constraints.
+
+Nothing in this file is guaranteed to be implemented.
+If something described here becomes true in the repository, it should be reflected in
+README.md.
+
+This project is no longer described in terms of “Acts”.
+It is structured as a single system experienced through different operational modes.
+
+Each mode exposes a different surface of the same underlying work.
 
 ---
 
-## Roadmap
+## High-Level Direction
 
-- Implement Act 4.
-- Complete consolidation of Act 2 and Act 3 into the shared Core/Runner architecture
-  (including retiring the standalone Act 2 console entry point).
+The system is always doing work.
+
+What changes over time is:
+- how much of that work the player performs directly
+- how much of it they delegate
+- how closely they choose to observe the consequences
+
+Movement between modes does not represent progress, success, or enlightenment.
+It represents **distance**.
 
 ---
 
-## Act 1 - Maintenance (In Progress)
+## Roadmap (Non-Binding)
 
-### Current Implementation
-- `process` uses a script-style log with controlled variation.
-- `status` prints the container view only.
-- After 5 parent containers complete, a one-time batch confirmation gate appears
-  (`y` records, `n` dismisses; 3 batches end the act).
+- Finalise Maintenance Mode as a stable, background system.
+- Build Records Mode as a navigable interpretive layer.
+- Implement a CLI-based Automation Mode that can alter how maintenance is performed.
+- Add a final Interpretation Mode once the system’s behaviour is stable.
+
+---
+
+## Maintenance Mode (In Progress)
 
 ### Purpose
-Act 1 establishes compliance through repetition: the player performs procedural work
-correctly, without understanding, until language becomes invisible and obligation
-becomes self-sustaining.
+
+Maintenance Mode establishes procedural compliance through repetition.
+
+The player performs work correctly without understanding its meaning or scope.
+Over time, the work becomes routine and attention shifts away from content and toward
+completion.
+
+This mode is designed to become ignorable, not satisfying.
 
 ### Player Belief
-“I’m processing data. This is necessary.”
+
+“I’m doing necessary work. Nothing is wrong.”
 
 ### Interface Constraints
+
 - Terminal-only interface.
 - Only two accepted commands:
   - `process`
   - `status`
-- Any other input must return an error that reasserts the allowed commands.
-
-### Experience Constraints
-- Act 1 must be dull. If it is interesting, it fails.
-- Repetition is the mechanism. Do not “add variety” to relieve boredom.
-- Output should become skimmable quickly; the player should optimise attention away
-  from reading.
-- No puzzles. No exploration. No “help”. No hinting.
+- Any other input returns a flat error that reasserts the allowed commands.
 
 ### Work Model
-- Work is represented as parent/child process containers.
-- The player processes children within the current parent container.
-- Parent containers are finite; the next parent is assigned when the current one completes.
-- The size of a new parent container is unknown until processing begins (scope reveals
-  itself through action, not planning).
-- Backlog must not feel like punishment or sabotage; it should feel like normal scheduling
-  and deferred release.
+
+- Work is represented as parent and child process containers.
+- The player processes child items within the current parent container.
+- Parent containers are finite.
+- When a parent container completes, a new one is assigned automatically.
+- The size of a new parent container is unknown until processing begins.
+- Scope is revealed only through action, not planning.
+
+Backlog must feel normal.
+It must not feel like punishment or escalation.
 
 ### Status Presentation
-- `status` includes a minimal ASCII representation of the current container structure:
-  parent container + child items as processed/pending.
-- `status` must not reveal global totals, completion percentages, or a finish line.
-- No progress bars, XP, achievements, or reward language.
+
+- `status` shows only the current container.
+- Output uses minimal ASCII structure.
+- Processed and pending items are distinguished.
+- No global totals.
+- No completion percentages.
+- No finish line.
 
 ### Language Constraints
+
 - Output is procedural, flat, and indifferent.
-- No moral framing. No ethical warnings. No narrative commentary.
+- No moral framing.
+- No ethical warnings.
+- No narrative commentary.
 - Only procedural confirmations are allowed.
-- Terms `kill-child` and `kill-parent` may appear as legitimate process-control language:
-  - present early
-  - repeated often
-  - operationally dull
-  - no escalation, synonyms, or dramatization
-  - not explained in Act 1
 
-### Forbidden Outcomes
-Act 1 fails if the player feels:
-- punished
-- judged
-- rewarded
-- “clever” in a way that reads as authorial approval
+Terms such as `kill-child` and `kill-parent` may appear as legitimate process-control
+language:
+- present early
+- repeated often
+- operationally dull
+- never explained
+- never escalated or dramatized
 
-Act 1 succeeds if the player reaches, unprompted:
-- “Nothing went wrong.”
-- “I did exactly what the system needed.”
+### Experience Constraints
 
-### Open Questions
-- Exact pacing and duration required for habituation (how long Act 1 must run before
-  it reliably “clicks” as maintenance).
-- Exact parent container sizing distribution (range/variance) to avoid resentment while
-  sustaining obligation.
-- Whether Act 1 ever ends “naturally” or only transitions when the system permits.
+- Maintenance Mode must be dull.
+- Repetition is the mechanism.
+- Do not add variety to relieve boredom.
+- Output should become skimmable.
+- The player should optimise attention away from reading.
 
----
+There are no puzzles.
+There is no exploration.
+There is no help system.
 
-## Act 2 — Interpretive Overlay (Present but Under Consolidation)
+### Transition Condition
 
-### Intended Role
-Act 2 provides records, policies, logs, and bureaucratic language that allows investigation
-without answers. Maintenance remains mandatory; interpretation remains optional.
+After sufficient repetition, the system allows access to Records Mode.
 
-### Critical Asymmetry
-- Maintenance is mandatory.
-- Interpretation is optional.
+This is not framed as success or completion.
+It is framed as availability.
+
+Maintenance Mode does not end.
+It becomes background labour.
 
 ---
 
-## Act 3 — Breach / False Optimisation (Present but Under Consolidation)
-
-### Intended Role
-Act 3 introduces read access to the system’s own configuration (e.g. JSON defining Acts),
-and limited, indirect write access via patch scripts.
-
-### Constraints
-- Read access reveals boring, clean, procedural configs (archaeology, not lore).
-- No direct editing; changes are applied via patch scripts only.
-- Patch scripts provide procedural confirmations only:
-  - “This will do X, Y, Z. Are you sure? (y/n)”
-  - later: `-y`
-- No ethical framing. No warnings. No punishment for curiosity.
-
-### Intended Trap
-Automation is framed as relief and competence, but reduces moral proximity by increasing
-distance between action and consequence.
-
----
-
-## Act 4 — Interpretation Layer (Planned)
+## Records Mode (Planned / Under Consolidation)
 
 ### Purpose
-Act 4 provides fluent, persuasive interpretation that is plausible but not authoritative.
 
-### Asymmetry
-- Terminal = truth without meaning.
-- Interpretation layer = meaning without truth.
+Records Mode provides access to institutional artifacts:
+logs, policies, memos, terminals, and records.
+
+It allows investigation without resolution.
+
+Maintenance remains mandatory.
+Interpretation remains optional.
+
+### Structure
+
+- The player can move between rooms or locations.
+- Each location contains one or more terminals or records.
+- Different terminals may perform similar work, framed differently.
+- Records are locally coherent but globally incomplete.
+
+No single record explains the system.
+Contradictions are allowed.
+Gaps are allowed.
 
 ### Constraints
-- Tempt the player toward belief instead of verification.
-- Must not become authoritative truth.
-- Ignorance must become a choice.
+
+- Records must not deliver answers.
+- Records must not form a complete narrative.
+- Records must not unlock truth.
+
+The player may form theories.
+Those theories should be plausible and incomplete.
+
+If the player feels clever, too much has been revealed.
 
 ---
 
-## Cross-Act Invariants
+## Automation Mode (CLI / Configuration Mode)
 
+### Purpose
+
+Automation Mode allows the player to alter how work is performed.
+
+It introduces automation, patching, and delegation.
+
+This mode reduces direct labour and increases distance between action and outcome.
+
+### Interface
+
+- Linux-like CLI.
+- Read access to system configuration.
+- Indirect write access via patch scripts or automation definitions.
+
+No direct editing.
+All changes are applied procedurally.
+
+### Constraints
+
+- Automation is framed as relief, not mastery.
+- No celebratory feedback.
+- No efficiency praise.
+- No moral framing.
+
+Patch scripts provide only procedural confirmation, for example:
+- “This will change X. Are you sure? (y/n)”
+- later: `-y`
+
+### Critical Rule
+
+Automation does not eliminate maintenance.
+It moves it out of sight.
+
+The player must always be able to return to a Maintenance terminal and run:
+
+'''Status''' 
+
+and receive real, current, unsanitised output.
+
+Maintenance remains the ground truth.
+
+---
+
+## Interpretation Mode (Planned)
+
+### Purpose
+
+Interpretation Mode provides fluent, persuasive explanations.
+
+These explanations are plausible but not authoritative.
+
+### Asymmetry
+
+- Maintenance and Automation provide truth without meaning.
+- Interpretation provides meaning without guaranteed truth.
+
+### Constraints
+
+- Interpretation must tempt belief.
+- It must not demand trust.
+- It must not resolve ambiguity.
+
+Ignorance must become a choice.
+
+---
+
+## Cross-Mode Invariants
+
+- The system never lies.
+- The system never cares.
+- No mode invalidates another.
+- Maintenance is always the ground truth.
 - Optimisation creates distance.
 - Understanding arrives after action.
-- Systems never lie.
-- Systems never care.
-- No ethical framing. No “this will have consequences.” No narrative warnings.
-- The system assumes competence; responsibility follows.
-- Horror is retroactive recognition, not malfunction.
-
-### Success Anchors
-The experience succeeds if the player reaches, unprompted:
-- “All systems reported healthy.”
-- “Nothing went wrong. I did exactly what the system needed.”
+- Horror is recognition, not malfunction.
 
 ---
 
 ## Non-Goals
 
-- Cyberpunk aesthetics as spectacle (no neon, no rebellion fantasy).
-- Player empowerment fantasy (no chosen one, no “hero hacker” arc).
+This project explicitly avoids:
+
+- Power or rebellion fantasies.
+- Cyberpunk spectacle.
 - Apocalypse framing.
 - Punishment for curiosity.
-- Lore dumps that explain the thesis instead of embodying it.
+- Lore dumps that explain intent instead of embodying it.
