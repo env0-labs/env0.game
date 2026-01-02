@@ -11,50 +11,8 @@ namespace Env0.Runner
     {
         private static int Main()
         {
-            while (true)
-            {
-                Console.WriteLine("Select a context to launch:");
-                Console.WriteLine("  1) Maintenance");
-                Console.WriteLine("  2) Records");
-                Console.WriteLine("  3) Terminal");
-                Console.WriteLine("  4) Context (placeholder)");
-                Console.WriteLine("  Q) Quit");
-                Console.Write("> ");
-
-                var input = Console.ReadLine();
-                if (input == null)
-                {
-                    return 0;
-                }
-
-                input = input.Trim();
-                if (input.Equals("q", StringComparison.OrdinalIgnoreCase) ||
-                    input.Equals("quit", StringComparison.OrdinalIgnoreCase))
-                {
-                    return 0;
-                }
-
-                switch (input)
-                {
-                    case "1":
-                        RunWithRouting(new MaintenanceModule());
-                        break;
-                    case "2":
-                        RunWithRouting(new RecordsModule());
-                        break;
-                    case "3":
-                        RunWithRouting(new TerminalModule());
-                        break;
-                    case "4":
-                        Console.WriteLine("Context runner is a placeholder for now.");
-                        break;
-                    default:
-                        Console.WriteLine("Unknown option. Please choose 1-4 or Q.");
-                        break;
-                }
-
-                Console.WriteLine();
-            }
+            RunWithRouting(new MaintenanceModule());
+            return 0;
         }
 
         private static void RunWithRouting(IContextModule module)
