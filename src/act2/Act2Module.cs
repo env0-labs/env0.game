@@ -11,12 +11,12 @@ public sealed class Act2Module : IActModule
 {
     private enum Act2Phase
     {
-        StorySelection,
+        Booting,
         Running,
         Completed
     }
 
-    private Act2Phase _phase = Act2Phase.StorySelection;
+    private Act2Phase _phase = Act2Phase.Booting;
     private bool _booted;
     private List<string>? _availableStories;
     private SceneRepository? _repo;
@@ -31,7 +31,7 @@ public sealed class Act2Module : IActModule
         if (state.IsComplete || _phase == Act2Phase.Completed)
             return output;
 
-        if (_phase == Act2Phase.StorySelection)
+        if (_phase == Act2Phase.Booting)
         {
             if (!_booted)
             {
@@ -40,28 +40,10 @@ public sealed class Act2Module : IActModule
                 AddLine(output, string.Empty);
             }
 
-            if (_availableStories == null)
-            {
-                if (!TryLoadStoryList(output, state))
-                    return output;
-
-                RenderStorySelection(output);
+            if (_availableStories == null && !TryLoadStoryList(output, state))
                 return output;
-            }
 
-            AddLine(output, string.Empty);
-
-            if (!int.TryParse(input, out var selectedStoryIndex) ||
-                selectedStoryIndex < 1 ||
-                selectedStoryIndex > _availableStories.Count)
-            {
-                AddLine(output, "Invalid selection. Please enter a valid story number.");
-                state.IsComplete = true;
-                _phase = Act2Phase.Completed;
-                return output;
-            }
-
-            var storyPath = _availableStories[selectedStoryIndex - 1];
+            var storyPath = _availableStories!.First();
 
             if (!File.Exists(storyPath))
             {
@@ -178,19 +160,6 @@ public sealed class Act2Module : IActModule
 
         _availableStories = stories;
         return true;
-    }
-
-    private void RenderStorySelection(List<OutputLine> output)
-    {
-        AddLine(output, "Select a story file to load:");
-        for (var i = 0; i < _availableStories!.Count; i++)
-        {
-            var fileName = Path.GetFileName(_availableStories[i]);
-            AddLine(output, $"{i + 1}. {fileName}");
-        }
-
-        AddLine(output, string.Empty);
-        AddPrompt(output, "> ");
     }
 
     private void RenderScene(List<OutputLine> output, SessionState state)
