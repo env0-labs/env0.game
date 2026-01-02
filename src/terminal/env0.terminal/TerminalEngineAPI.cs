@@ -467,7 +467,10 @@ namespace Env0.Terminal
                     }
 
                     var result = _commandHandler.Execute(input, _session);
-                    return BuildRenderState(result);
+                    var renderState = BuildRenderState(result);
+                    if (parsed.CommandName == "clear")
+                        renderState.ClearScreen = true;
+                    return renderState;
 
             }
         }
@@ -503,7 +506,7 @@ namespace Env0.Terminal
 
                 Output = output,
                 CurrentDirectory = _session.CurrentWorkingDirectory,
-                DirectoryListing = _filesystemManager.ListCurrentDirectory(),
+                DirectoryListing = _session.FilesystemManager.ListCurrentDirectory(),
                 SessionStackDepth = _session.SshStack.Count,
                 SessionStackView = BuildSessionStackView(),
                 ClearScreen = false,
@@ -537,7 +540,7 @@ namespace Env0.Terminal
                 Output = result.Output,
                 OutputLines = result.OutputLines,
                 CurrentDirectory = _session.CurrentWorkingDirectory,
-                DirectoryListing = _filesystemManager.ListCurrentDirectory(),
+                DirectoryListing = _session.FilesystemManager.ListCurrentDirectory(),
                 SessionStackDepth = _session.SshStack.Count,
                 SessionStackView = BuildSessionStackView(),
                 ClearScreen = false,

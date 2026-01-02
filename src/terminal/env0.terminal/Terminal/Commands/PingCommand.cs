@@ -22,21 +22,21 @@ namespace Env0.Terminal.Terminal.Commands
                 return result;
             }
 
+            // Optional: parse count from args (e.g., "ping -c 2 host")
+            int packetCount = 4;
             string target = args[0].Trim();
+            if (args.Length > 2 && args[0] == "-c" && int.TryParse(args[1], out var c))
+            {
+                packetCount = c;
+                target = args[2];
+            }
+
             var device = session.NetworkManager.FindDevice(target);
 
             if (device == null)
             {
                 result.AddLine($"ping: {target}: Host unreachable\n", OutputType.Error);
                 return result;
-            }
-
-            // Optional: parse count from args (e.g., "ping -c 2 host")
-            int packetCount = 4;
-            if (args.Length > 2 && args[0] == "-c" && int.TryParse(args[1], out var c))
-            {
-                packetCount = c;
-                target = args[2];
             }
 
             var results = session.NetworkManager.Ping(device, packetCount);
