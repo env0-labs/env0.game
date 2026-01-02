@@ -1,34 +1,26 @@
 {
-  "root": {
-    "filesystem_2.txt": {
-      "type": "file",
-      "content": "Old Forgotten Server\nThis system hasn't been used in years. It's dusty and full of ancient files no one's touched in a decade."
+  "Root": {
+    "readme.txt": { "type": "file", "content": "INTAKE & PRE-PROCESSING\n\nRole: Normalize incoming units for Processing.\nDo not reference source. Do not record origin." },
+    "etc": {
+      "intake.cfg": { "type": "file", "content": "NORMALIZE=ON\nLEGACY_CODES=OFF\nROUTE_NONSTANDARD=/queue/exceptions\nROUTE_STANDARD=/queue/processing_in" },
+      "legacy_codes.txt": { "type": "file", "content": "Legacy Codes (Retired)\n\nA-01 (retired)\nB-04 (retired)\nC-— (missing)\n\nDo not use. Refer discrepancies to Alignment." }
     },
-    "backup": {
-      "decade_old": {
-        "archive.log": {
-          "type": "file",
-          "content": "Archive completed 2013-07-16. No further updates."
-        }
+    "queue": {
+      "raw": {
+        "README.txt": { "type": "file", "content": "Raw incoming units staged here.\nCount only.\nDo not annotate.\nDo not inspect." }
+      },
+      "processing_in": {
+        "README.txt": { "type": "file", "content": "Normalized units staged here for Processing Floor pickup." }
+      },
+      "exceptions": {
+        "README.txt": { "type": "file", "content": "Units that fail normalization.\nForward without amendment." }
       }
     },
     "log": {
-      "restore.log": {
-        "type": "file",
-        "content": "Restore operation failed — disk full?"
-      },
-      "error.log": {
-        "type": "file",
-        "content": "12/06/14: fsck found errors. No action taken."
-      }
+      "intake.log": { "type": "file", "content": "…\n[OK] count verified\n[OK] normalization applied\n[WARN] classification mismatch detected\n[INFO] forwarded for review\n…" }
     },
-    "readme.txt": {
-      "type": "file",
-      "content": "If you're reading this, you must really be lost."
-    },
-    "lost+found": {
-      "type": "file",
-      "content": "Corrupted directory contents — cannot display."
+    "docs": {
+      "intake_summary_template.txt": { "type": "file", "content": "INTAKE SUMMARY\n\nSource: [REDACTED]\nCount: ____\nNon-standard: ____\nDisposition: forwarded\n\nNotes: Use identifiers only." }
     }
   }
 }

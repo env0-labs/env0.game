@@ -1,26 +1,19 @@
 {
-  "root": {
-    "filesystem_7.txt": {
-      "type": "file",
-      "content": "Corrupted System\nFilesystem is partially unreadable. Strange files everywhere."
+  "Root": {
+    "readme.txt": { "type": "file", "content": "SCHEDULING & LOAD MANAGEMENT\n\nRole: Maintain steady dispatch.\nVariance triggers Alignment review." },
+    "etc": {
+      "load.cfg": { "type": "file", "content": "TARGET=STEADY\nSPIKES=AVOID\nWINDOWS=DEFINED\nROUTE_ON_VARIANCE=/queue/review" }
     },
-    "lost+found": {
-      "ghost1.bin": {
-        "type": "file",
-        "content": "!!!DATA CORRUPTED!!!"
+    "docs": {
+      "target_profile.txt": { "type": "file", "content": "TARGET LOAD PROFILE (OUTDATED)\n\nMaintain steady dispatch.\nAvoid spikes.\nVariance triggers Alignment review." }
+    },
+    "queue": {
+      "review": {
+        "README.txt": { "type": "file", "content": "Variance items staged here pending Alignment review.\nDo not delay routing." }
       }
     },
-    "tmp": {
-      "corrupt.bin": {
-        "type": "file",
-        "content": "NOISE_NOISE_NOISE"
-      }
-    },
-    "system": {
-      "ghost.log": {
-        "type": "file",
-        "content": "System anomaly detected 00:00:00"
-      }
+    "log": {
+      "scheduling.log": { "type": "file", "content": "…\n[OK] dispatch window opened\n[OK] dispatch window closed\n[WARN] spike detected\n[INFO] routed for review\n…" }
     }
   }
 }

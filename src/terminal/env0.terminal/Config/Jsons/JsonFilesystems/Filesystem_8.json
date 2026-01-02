@@ -1,32 +1,17 @@
 {
-  "root": {
-    "filesystem_8.txt": {
-      "type": "file",
-      "content": "HR Workstation\nPersonal files, onboarding docs, and questionable diary entries."
-    },
-    "home": {
-      "hr": {
-        "diary.txt": {
-          "type": "file",
-          "content": "Day 58: Still hate Mondays."
-        },
-        "resume.doc": {
-          "type": "file",
-          "content": "Curriculum Vitae — Confidential"
-        }
-      }
+  "Root": {
+    "readme.txt": { "type": "file", "content": "RESOURCE ALLOCATION\n\nRole: Maintain capacity thresholds.\nIf thresholds are exceeded, record variance and proceed." },
+    "etc": {
+      "capacity.cfg": { "type": "file", "content": "RESERVED=TRUE\nTHRESHOLD=DEFAULT\nEXCEED_ACTION=RECORD_AND_PROCEED\nOUTCOME_FIELD=NOT_REQUIRED" }
     },
     "docs": {
-      "onboarding.txt": {
-        "type": "file",
-        "content": "Welcome to the company. Please ignore the rumors."
-      }
+      "capacity_guidance.txt": { "type": "file", "content": "CAPACITY GUIDANCE\n\nDo not exceed reserved thresholds.\nIf thresholds are exceeded, record variance and proceed." }
     },
     "log": {
-      "email.log": {
-        "type": "file",
-        "content": "2025-05-10: Sent resignation email. (Unsent.)"
-      }
+      "capacity.log": { "type": "file", "content": "…\n[OK] within threshold\n[WARN] exceeded threshold\n[INFO] variance recorded\n[OK] proceeded\n…" }
+    },
+    "tables": {
+      "thresholds.txt": { "type": "file", "content": "Threshold Bands\n\nBand-1: DEFAULT\nBand-2: RESTRICTED\nBand-3: OVERSIGHT\n\nNote: Bands are assigned per operational need." }
     }
   }
 }

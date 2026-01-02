@@ -1,28 +1,18 @@
 {
-  "root": {
-    "filesystem_9.txt": {
-      "type": "file",
-      "content": "Old Research Workstation\nRetired user, forgotten projects, and abandoned dreams."
+  "Root": {
+    "readme.txt": { "type": "file", "content": "QUALITY ASSURANCE\n\nRole: Sample verification.\nIf variance is noted, stamp remains valid unless revoked." },
+    "etc": {
+      "qa.cfg": { "type": "file", "content": "SAMPLE_RATE=DEFAULT\nVARIANCE_HANDLING=NOTE\nREVOCATION=RARE\nSTAMP=VERIFIED" }
     },
-    "home": {
-      "olduser": {
-        "results.log": {
-          "type": "file",
-          "content": "Final experiment result: INCONCLUSIVE"
-        }
-      }
+    "docs": {
+      "stamp_policy.txt": { "type": "file", "content": "STAMP POLICY\n\nStamp indicates verification of procedure.\nStamp does not indicate authorisation.\nStamp does not indicate outcome." },
+      "checklist.txt": { "type": "file", "content": "QA CHECKLIST\n\n1) Sample selected\n2) Procedure followed\n3) Variance noted (if present)\n4) Stamp applied\n\nDo not describe contents." }
     },
-    "old_code": {
-      "broken.py": {
-        "type": "file",
-        "content": "# Broken beyond repair"
-      }
+    "log": {
+      "qa.log": { "type": "file", "content": "…\n[OK] sample checked\n[OK] variance noted\n[OK] stamp applied\n…" }
     },
-    "notes": {
-      "abandonware.txt": {
-        "type": "file",
-        "content": "If you found this, please close the lid and walk away."
-      }
+    "tools": {
+      "stamp.txt": { "type": "file", "content": "VERIFIED" }
     }
   }
 }
