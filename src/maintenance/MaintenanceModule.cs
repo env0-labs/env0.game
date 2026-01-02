@@ -55,6 +55,11 @@ public sealed class MaintenanceModule : IContextModule
             case "status":
                 RenderStatus(output);
                 break;
+            case "load cli":
+                AddLine(output, "Loading CLI...");
+                state.NextContext = ContextRoute.Terminal;
+                state.IsComplete = true;
+                return output;
             case "exit":
                 AddLine(output, "Exiting...");
                 state.NextContext = ContextRoute.Records;
@@ -141,7 +146,7 @@ public sealed class MaintenanceModule : IContextModule
         }
         AddLine(output, string.Empty);
     }
-private static void RenderInvalidCommand(List<OutputLine> output)
+    private static void RenderInvalidCommand(List<OutputLine> output)
     {
         AddLine(output, "ERROR");
         AddLine(output, string.Empty);
@@ -150,6 +155,7 @@ private static void RenderInvalidCommand(List<OutputLine> output)
         AddLine(output, "Accepted commands:");
         AddLine(output, "- process");
         AddLine(output, "- status");
+        AddLine(output, "- load cli");
         AddLine(output, string.Empty);
     }
 

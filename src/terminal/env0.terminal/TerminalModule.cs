@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Env0.Terminal.API_DTOs;
 using Env0.Core;
@@ -12,6 +13,18 @@ namespace Env0.Terminal
 
         public IEnumerable<OutputLine> Handle(string input, SessionState state)
         {
+            var trimmed = (input ?? string.Empty).Trim();
+            if (trimmed.Equals("quit", StringComparison.OrdinalIgnoreCase))
+            {
+                var exitOutput = new List<OutputLine>
+                {
+                    new OutputLine(OutputType.Standard, "Exiting...")
+                };
+                state.NextContext = ContextRoute.Maintenance;
+                state.IsComplete = true;
+                return exitOutput;
+            }
+
             if (!_initialized)
             {
                 _api.Initialize();
