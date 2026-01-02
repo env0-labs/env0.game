@@ -51,8 +51,7 @@ Current status:
 
 - Maintenance: module (`MaintenanceModule`) exists and is wired to the runner; process includes a batch confirmation gate
 - Records: module (`RecordsModule`) exists and is wired to the runner; terminals route into Maintenance and return to the originating room
-- Terminal: module (`TerminalModule`) exists; includes a standalone playground
-  app and internal docs
+- Terminal: module (`TerminalModule`) exists; includes a standalone playground app and internal docs
 - Context: placeholder folder exists
 
 ### Runner
@@ -142,8 +141,11 @@ This avoids:
 Terminal access in Records is mapped in `Config/Jsons/Devices.json`.
 Each device includes a `recordsRoomId` and `filesystem`, and Records uses
 that mapping to launch Maintenance with the correct machine context. The
-Maintenance prompt shows the machine id, and `quit` returns the player to
+Maintenance boot includes the machine id, and `exit` returns the player to
 the originating Records room.
+
+Maintenance can open the CLI via `load cli`, which drops into Terminal
+using the device filesystem for the active room.
 
 ------------------------------------------------------------------------
 

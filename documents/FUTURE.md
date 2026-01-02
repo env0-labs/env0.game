@@ -93,6 +93,8 @@ Maintenance Mode is not singular.
 
 Multiple maintenance variants exist simultaneously, accessed through different terminals.
 Each variant represents a different bureaucratic framing of similar underlying work.
+The current build uses identical variants with distinct machine identifiers, pending
+variant-specific mechanics.
 
 Examples of variation (non-exhaustive):
 - Sequential processing with strict ordering
