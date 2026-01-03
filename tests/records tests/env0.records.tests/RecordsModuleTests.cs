@@ -17,7 +17,7 @@ public sealed class RecordsModuleTests
         var alpha = "test_records_alpha.json";
         var beta = "test_records_beta.json";
 
-        CreateStoryFile(alpha, BuildRunningStoryJson("Alpha scene."));
+        CreateStoryFile(alpha, BuildSingleChoiceStoryJson("Alpha scene."));
         CreateStoryFile(beta, BuildEndStoryJson("start", "Beta scene."));
 
         try
@@ -44,7 +44,7 @@ public sealed class RecordsModuleTests
         var session = new SessionState();
         var story = "test_records_running.json";
 
-        CreateStoryFile(story, BuildRunningStoryJson("Start scene."));
+        CreateStoryFile(story, BuildSingleChoiceStoryJson("Start scene."));
 
         try
         {
@@ -55,7 +55,7 @@ public sealed class RecordsModuleTests
             var invalidOutput = module.Handle("abc", session).ToList();
             var invalidTexts = invalidOutput.Select(line => line.Text).ToList();
 
-            Assert.Contains("Invalid input. Enter a number.", invalidTexts);
+            Assert.Contains("Input not recognized.", invalidTexts);
             Assert.False(session.IsComplete);
         }
         finally
@@ -111,7 +111,7 @@ public sealed class RecordsModuleTests
             Assert.Equal("Filesystem_1.json", session.MaintenanceFilesystem);
             Assert.Equal("proc.floor01", session.MaintenanceMachineId);
             Assert.Equal("start", session.RecordsReturnSceneId);
-            Assert.DoesNotContain("Invalid input", output.Select(line => line.Text));
+            Assert.DoesNotContain("Input not recognized.", output.Select(line => line.Text));
         }
         finally
         {
@@ -140,7 +140,104 @@ public sealed class RecordsModuleTests
             var texts = output.Select(line => line.Text).ToList();
 
             Assert.Contains("Resume scene.", texts);
-            Assert.DoesNotContain("Invalid input", texts);
+            Assert.DoesNotContain("Input not recognized.", texts);
+        }
+        finally
+        {
+            DeleteStoryFile(story);
+        }
+    }
+
+    [Fact]
+    public void Handle_ResolvesNumericAndAliasToSameChoice()
+    {
+        var numericModule = new RecordsModule();
+        var aliasModule = new RecordsModule();
+        var numericSession = new SessionState();
+        var aliasSession = new SessionState();
+        var story = "test_records_alias.json";
+
+        CreateStoryFile(story, BuildSingleChoiceStoryJson("Alias scene.", "MEMO BODY"));
+
+        try
+        {
+            numericModule.Handle(string.Empty, numericSession).ToList();
+            aliasModule.Handle(string.Empty, aliasSession).ToList();
+
+            var numericOutput = numericModule.Handle("1", numericSession).ToList();
+            var aliasOutput = aliasModule.Handle("look at memo", aliasSession).ToList();
+
+            Assert.Contains("MEMO BODY", numericOutput.Select(line => line.Text));
+            Assert.Contains("MEMO BODY", aliasOutput.Select(line => line.Text));
+        }
+        finally
+        {
+            DeleteStoryFile(story);
+        }
+    }
+
+    [Fact]
+    public void Handle_HidesNumericLabelsByDefault()
+    {
+        var module = new RecordsModule();
+        var session = new SessionState();
+        var story = "test_records_numbers_hidden.json";
+
+        CreateStoryFile(story, BuildSingleChoiceStoryJson("Hidden numbers scene."));
+
+        try
+        {
+            var output = module.Handle(string.Empty, session).ToList();
+            var texts = output.Select(line => line.Text).ToList();
+
+            Assert.DoesNotContain("[1] read memo", texts);
+            Assert.DoesNotContain("Available:", texts);
+        }
+        finally
+        {
+            DeleteStoryFile(story);
+        }
+    }
+
+    [Fact]
+    public void Handle_OptionsShowsNumberedListWithoutTogglingState()
+    {
+        var module = new RecordsModule();
+        var session = new SessionState();
+        var story = "test_records_options.json";
+
+        CreateStoryFile(story, BuildSingleChoiceStoryJson("Options scene."));
+
+        try
+        {
+            module.Handle(string.Empty, session).ToList();
+
+            var output = module.Handle("options", session).ToList();
+            var texts = output.Select(line => line.Text).ToList();
+
+            Assert.Contains("Available:", texts);
+            Assert.Contains("[1] read memo", texts);
+            Assert.False(session.ShowNumericOptions);
+        }
+        finally
+        {
+            DeleteStoryFile(story);
+        }
+    }
+
+    [Fact]
+    public void Handle_AliasCollisionFailsFast()
+    {
+        var module = new RecordsModule();
+        var session = new SessionState();
+        var story = "test_records_collision.json";
+
+        CreateStoryFile(story, BuildAliasCollisionStoryJson());
+
+        try
+        {
+            var ex = Assert.Throws<InvalidOperationException>(() => module.Handle(string.Empty, session).ToList());
+            Assert.Contains("Alias collision", ex.Message);
         }
         finally
         {
@@ -201,7 +298,7 @@ public sealed class RecordsModuleTests
 }}";
     }
 
-    private static string BuildRunningStoryJson(string text)
+    private static string BuildSingleChoiceStoryJson(string text, string resultText = "MEMO BODY")
     {
         return $@"{{
   ""StartSceneId"": ""start"",
@@ -212,19 +309,17 @@ public sealed class RecordsModuleTests
       ""IsEnd"": false,
       ""Choices"": [
         {{
-          ""Number"": 1,
-          ""Text"": ""Go"",
+          ""Id"": ""start.read_memo"",
+          ""Index"": 1,
+          ""Verb"": ""read"",
+          ""Noun"": ""memo"",
+          ""Aliases"": [ ""read memo"", ""look at memo"" ],
           ""Effects"": [
-            {{ ""Type"": ""GotoScene"", ""Value"": ""end"" }}
-          ]
+            {{ ""Type"": ""GotoScene"", ""Value"": ""start"" }}
+          ],
+          ""ResultText"": ""{resultText}""
         }}
       ]
-    }},
-    {{
-      ""Id"": ""end"",
-      ""Text"": ""End scene."",
-      ""IsEnd"": true,
-      ""Choices"": []
     }}
   ]
 }}";
@@ -241,8 +336,11 @@ public sealed class RecordsModuleTests
       ""IsEnd"": false,
       ""Choices"": [
         {{
-          ""Number"": 1,
-          ""Text"": ""Sit down at the terminal"",
+          ""Id"": ""start.use_terminal"",
+          ""Index"": 1,
+          ""Verb"": ""use"",
+          ""Noun"": ""terminal"",
+          ""Aliases"": [ ""use terminal"" ],
           ""Effects"": [
             {{ ""Type"": ""GotoScene"", ""Value"": ""start"" }}
           ]
@@ -252,5 +350,40 @@ public sealed class RecordsModuleTests
   ]
 }}";
     }
-}
 
+    private static string BuildAliasCollisionStoryJson()
+    {
+        return @"{
+  ""StartSceneId"": ""start"",
+  ""Scenes"": [
+    {
+      ""Id"": ""start"",
+      ""Text"": ""Collision scene."",
+      ""IsEnd"": false,
+      ""Choices"": [
+        {
+          ""Id"": ""start.read_memo"",
+          ""Index"": 1,
+          ""Verb"": ""read"",
+          ""Noun"": ""memo"",
+          ""Aliases"": [ ""read memo"" ],
+          ""Effects"": [
+            { ""Type"": ""GotoScene"", ""Value"": ""start"" }
+          ]
+        },
+        {
+          ""Id"": ""start.read_notice"",
+          ""Index"": 2,
+          ""Verb"": ""read"",
+          ""Noun"": ""notice"",
+          ""Aliases"": [ ""read memo"" ],
+          ""Effects"": [
+            { ""Type"": ""GotoScene"", ""Value"": ""start"" }
+          ]
+        }
+      ]
+    }
+  ]
+}";
+    }
+}

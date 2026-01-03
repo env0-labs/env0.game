@@ -50,6 +50,8 @@ var repo = new SceneRepository(story);
 var state = new GameState(repo.StartSceneId);
 var evaluator = new ChoiceEvaluator();
 var executor = new EffectExecutor();
+var inputRouter = new InputRouter();
+var showNumericOptions = false;
 
 // ------------------------------------------------------------------
 // Main loop
@@ -65,16 +67,22 @@ while (true)
     if (scene.IsEnd)
         break;
 
-    // Render choices (always visible)
-    foreach (var choice in scene.Choices.OrderBy(c => c.Number))
+    var orderedChoices = scene.Choices.OrderBy(c => c.Index).ToList();
+    var availableChoices = new List<ChoiceDefinition>();
+    foreach (var choice in orderedChoices)
     {
-        var enabled = evaluator.IsEnabled(choice, state, out var reason);
+        if (evaluator.IsEnabled(choice, state, out _))
+            availableChoices.Add(choice);
+    }
 
-        Console.WriteLine(
-            enabled
-                ? $"{choice.Number}. {choice.Text}"
-                : $"{choice.Number}. {choice.Text} ({reason})"
-        );
+    if (showNumericOptions)
+    {
+        Console.WriteLine("Available:");
+        foreach (var choice in availableChoices)
+        {
+            var line = $"[{choice.Index}] {choice.Verb} {choice.Noun}";
+            Console.WriteLine(line);
+        }
     }
 
     Console.WriteLine();
@@ -83,17 +91,17 @@ while (true)
     var input = Console.ReadLine();
     Console.WriteLine();
 
-    if (!int.TryParse(input, out var selectedNumber))
+    if (inputRouter.IsHelpCommand(input ?? string.Empty))
     {
-        Console.WriteLine("Invalid input. Enter a number.");
+        showNumericOptions = true;
         Console.WriteLine();
         continue;
     }
 
-    var selectedChoice = scene.Choices.FirstOrDefault(c => c.Number == selectedNumber);
-    if (selectedChoice is null)
+    if (!inputRouter.TryResolve(input ?? string.Empty, scene, out var selectedChoice) || selectedChoice is null)
     {
-        Console.WriteLine("No such option.");
+        Console.WriteLine("Input not recognized.");
+        Console.WriteLine("Use 'options' or 'help' to display numbered choices.");
         Console.WriteLine();
         continue;
     }

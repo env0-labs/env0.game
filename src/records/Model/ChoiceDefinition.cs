@@ -2,8 +2,11 @@ namespace env0.records.Model;
 
 public sealed class ChoiceDefinition
 {
-    public required int Number { get; init; }
-    public required string Text { get; init; }
+    public required string Id { get; init; }
+    public required int Index { get; init; }
+    public required string Verb { get; init; }
+    public required string Noun { get; init; }
+    public required List<string> Aliases { get; init; }
 
     public List<string>? RequiresAll { get; init; }
     public List<string>? RequiresNone { get; init; }

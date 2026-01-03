@@ -3,36 +3,57 @@
     {
       "choices": [
         {
+          "id": "rm_processing_floor.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_processing_floor.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_processing_floor"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_processing_floor.read_notice",
+          "index": 3,
+          "verb": "read",
+          "noun": "laminated notice",
+          "aliases": [
+            "read laminated notice",
+            "read notice",
+            "look at laminated notice"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_processing_floor"
             }
           ],
-          "number": 3,
-          "resultText": "STANDARD OPERATING CONDITIONS\n\nMaintain throughput within tolerance.\nEscalate exceptions via Exception Handling.\nDo not retain copies of unassigned materials.",
-          "text": "Read the laminated notice"
+          "resultText": "STANDARD OPERATING CONDITIONS\n\nMaintain throughput within tolerance.\nEscalate exceptions via Exception Handling.\nDo not retain copies of unassigned materials."
         }
       ],
       "id": "rm_processing_floor",
@@ -41,96 +62,135 @@
     {
       "choices": [
         {
+          "id": "rm_intake_preprocessing.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_intake_preprocessing.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_intake_preprocessing"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_intake_preprocessing.read_printout",
+          "index": 3,
+          "verb": "read",
+          "noun": "torn printout",
+          "aliases": [
+            "read torn printout",
+            "read printout",
+            "look at torn printout"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_intake_preprocessing"
             }
           ],
-          "number": 3,
-          "resultText": "INTAKE SUMMARY (TRUNCATED)\n\nSource: [REDACTED]\nCount verified.\nNon-standard units forwarded for review.\nDiscontinue legacy classification codes effective Q3.",
-          "text": "Read the torn printout"
+          "resultText": "INTAKE SUMMARY (TRUNCATED)\n\nSource: [REDACTED]\nCount verified.\nNon-standard units forwarded for review.\nDiscontinue legacy classification codes effective Q3."
         }
       ],
       "id": "rm_intake_preprocessing",
-      "text": "Intake \u0026 Pre-Processing\n\nA staging room with long tables, shallow trays, and stacks of blank labels. The surfaces are clean in a way that suggests routine rather than care. A terminal sits at the end of the nearest table, screen idling with a dim prompt.\n\nA torn printout has been left under a paperweight."
+      "text": "Intake & Pre-Processing\n\nA staging room with long tables, shallow trays, and stacks of blank labels. The surfaces are clean in a way that suggests routine rather than care. A terminal sits at the end of the nearest table, screen idling with a dim prompt.\n\nA torn printout has been left under a paperweight."
     },
     {
       "choices": [
         {
+          "id": "rm_output_consolidation.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_output_consolidation.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_output_consolidation"
             }
           ],
-          "number": 2,
-          "resultText": "Access unavailable. Clearance grade insufficient.",
-          "text": "Sit down at the terminal"
+          "resultText": "Access unavailable. Clearance grade insufficient."
         },
         {
+          "id": "rm_output_consolidation.read_post_it",
+          "index": 3,
+          "verb": "read",
+          "noun": "post-it note",
+          "aliases": [
+            "read post-it note",
+            "read post it note",
+            "read note",
+            "look at post-it note"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_output_consolidation"
             }
           ],
-          "number": 3,
-          "resultText": "NOTE\n\nAccess restricted to personnel with F-grade clearance.\nGrading discrepancies should be referred to the Department of Access.",
-          "text": "Read the post-it note"
+          "resultText": "NOTE\n\nAccess restricted to personnel with F-grade clearance.\nGrading discrepancies should be referred to the Department of Access."
         },
         {
+          "id": "rm_output_consolidation.read_cart_tag",
+          "index": 4,
+          "verb": "read",
+          "noun": "cart tag",
+          "aliases": [
+            "read cart tag",
+            "read tag",
+            "look at cart tag"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_output_consolidation"
             }
           ],
-          "number": 4,
-          "resultText": "CART TAG\n\nContents: Consolidated Output\nDestination: Routing",
-          "text": "Read the cart tag"
-        },
-        {
-          "effects": [
-            {
-              "type": "GotoScene",
-              "value": "rm_break_room"
-            }
-          ],
-          "number": 5,
-          "resultText": "Well done! You got nothing!",
-          "text": "Test Choice"
+          "resultText": "CART TAG\n\nContents: Consolidated Output\nDestination: Routing"
         }
       ],
       "id": "rm_output_consolidation",
@@ -139,25 +199,38 @@
     {
       "choices": [
         {
+          "id": "rm_break_room.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_break_room.read_reminder",
+          "index": 2,
+          "verb": "read",
+          "noun": "printed reminder",
+          "aliases": [
+            "read printed reminder",
+            "read reminder",
+            "look at printed reminder"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_break_room"
             }
           ],
-          "number": 2,
-          "resultText": "REMINDER\n\nMeals must be consumed in designated areas only.\nDo not bring materials into break spaces.",
-          "text": "Read the printed reminder"
+          "resultText": "REMINDER\n\nMeals must be consumed in designated areas only.\nDo not bring materials into break spaces."
         }
       ],
       "id": "rm_break_room",
@@ -166,63 +239,97 @@
     {
       "choices": [
         {
+          "id": "rm_infrastructure_services.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_infrastructure_services.read_placard",
+          "index": 2,
+          "verb": "read",
+          "noun": "placard",
+          "aliases": [
+            "read placard",
+            "look at placard"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_infrastructure_services"
             }
           ],
-          "number": 2,
-          "resultText": "SERVICE PANEL\n\nDo not disable environmental controls.\nReport irregular temperatures via Scheduling \u0026 Load Management.",
-          "text": "Read the placard"
+          "resultText": "SERVICE PANEL\n\nDo not disable environmental controls.\nReport irregular temperatures via Scheduling & Load Management."
         }
       ],
       "id": "rm_infrastructure_services",
-      "text": "Infrastructure Services\n\nA service room of cable trays and ventilation ducts. The building\u2019s quiet becomes audible here: fans, relays, and a continuous low vibration transmitted through the floor. Warning labels are present, but not dramatic.\n\nA small placard is fixed to a panel."
+      "text": "Infrastructure Services\n\nA service room of cable trays and ventilation ducts. The building's quiet becomes audible here: fans, relays, and a continuous low vibration transmitted through the floor. Warning labels are present, but not dramatic.\n\nA small placard is fixed to a panel."
     },
     {
       "choices": [
         {
+          "id": "rm_access_department.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_access_department.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_access_department"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_access_department.read_grading_notice",
+          "index": 3,
+          "verb": "read",
+          "noun": "grading queries notice",
+          "aliases": [
+            "read grading queries notice",
+            "read grading notice",
+            "read notice",
+            "look at grading queries notice"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_access_department"
             }
           ],
-          "number": 3,
-          "resultText": "GRADING QUERIES\n\nGrading is assigned per operational requirement.\nRequests must include justification code.\nDo not include operational context.",
-          "text": "Read the GRADING QUERIES notice"
+          "resultText": "GRADING QUERIES\n\nGrading is assigned per operational requirement.\nRequests must include justification code.\nDo not include operational context."
         }
       ],
       "id": "rm_access_department",
@@ -231,74 +338,115 @@
     {
       "choices": [
         {
+          "id": "rm_compliance_alignment.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_compliance_alignment.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_compliance_alignment"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_compliance_alignment.read_note",
+          "index": 3,
+          "verb": "read",
+          "noun": "note",
+          "aliases": [
+            "read note",
+            "look at note"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_compliance_alignment"
             }
           ],
-          "number": 3,
-          "resultText": "REMINDER\n\nDo not reference origin.\nUse assigned identifiers only.",
-          "text": "Read the note"
+          "resultText": "REMINDER\n\nDo not reference origin.\nUse assigned identifiers only.\n\nSystems never lie; systems never care."
         }
       ],
       "id": "rm_compliance_alignment",
-      "text": "Compliance \u0026 Alignment\n\nA room built to reduce everything to categories. Checklists are clipped to boards. Approval trays are labelled with neutral terms. The terminal displays a plain interface with fields that suggest results rather than reasons.\n\nA note has been placed under the clipboard, as if to ensure it cannot be missed."
+      "text": "Compliance & Alignment\n\nA room built to reduce everything to categories. Checklists are clipped to boards. Approval trays are labelled with neutral terms. The terminal displays a plain interface with fields that suggest results rather than reasons.\n\nA note has been placed under the clipboard, as if to ensure it cannot be missed."
     },
     {
       "choices": [
         {
+          "id": "rm_exception_handling.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_exception_handling.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_exception_handling"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_exception_handling.read_log_strip",
+          "index": 3,
+          "verb": "read",
+          "noun": "log strip",
+          "aliases": [
+            "read log strip",
+            "read printed log strip",
+            "look at log strip"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_exception_handling"
             }
           ],
-          "number": 3,
-          "resultText": "EXCEPTION LOG (PARTIAL)\n\n\u2026classification mismatch.\n\u2026forwarded to Alignment.\n\u2026resolved without amendment.",
-          "text": "Read the printed log strip"
+          "resultText": "EXCEPTION LOG (PARTIAL)\n\n...classification mismatch.\n...forwarded to Alignment.\n...resolved without amendment."
         }
       ],
       "id": "rm_exception_handling",
@@ -307,63 +455,96 @@
     {
       "choices": [
         {
+          "id": "rm_scheduling_load.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_scheduling_load.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_scheduling_load"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_scheduling_load.read_chart",
+          "index": 3,
+          "verb": "read",
+          "noun": "framed chart",
+          "aliases": [
+            "read framed chart",
+            "read chart",
+            "look at framed chart"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_scheduling_load"
             }
           ],
-          "number": 3,
-          "resultText": "TARGET LOAD PROFILE (OUTDATED)\n\nMaintain steady dispatch.\nAvoid spikes.\nVariance triggers Alignment review.",
-          "text": "Read the framed chart"
+          "resultText": "TARGET LOAD PROFILE (OUTDATED)\n\nMaintain steady dispatch.\nAvoid spikes.\nVariance triggers Alignment review."
         }
       ],
       "id": "rm_scheduling_load",
-      "text": "Scheduling \u0026 Load Management\n\nA planning room with wall charts that have not been updated in some time. The terminal\u2019s display is the only thing that looks current. A faded chart sits under glass, the kind of document that becomes policy because it is framed.\n\nYou can still read the headline."
+      "text": "Scheduling & Load Management\n\nA planning room with wall charts that have not been updated in some time. The terminal's display is the only thing that looks current. A faded chart sits under glass, the kind of document that becomes policy because it is framed.\n\nThe headline is still readable."
     },
     {
       "choices": [
         {
+          "id": "rm_administrative_services.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_administrative_services.read_memo",
+          "index": 2,
+          "verb": "read",
+          "noun": "memo",
+          "aliases": [
+            "read memo",
+            "look at memo"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_administrative_services"
             }
           ],
-          "number": 2,
-          "resultText": "INTERNAL ROUTING\n\nDirect all non-standard requests to the relevant department.\nDo not retain copies.\nDo not annotate original documents.",
-          "text": "Read the memo"
+          "resultText": "INTERNAL ROUTING\n\nDirect all non-standard requests to the relevant department.\nDo not retain copies.\nDo not annotate original documents."
         }
       ],
       "id": "rm_administrative_services",
@@ -372,112 +553,173 @@
     {
       "choices": [
         {
+          "id": "rm_records_retention.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_records_retention.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_records_retention"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_records_retention.read_memo",
+          "index": 3,
+          "verb": "read",
+          "noun": "protruding memo",
+          "aliases": [
+            "read protruding memo",
+            "read memo",
+            "look at protruding memo"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_records_retention"
             }
           ],
-          "number": 3,
-          "resultText": "RETENTION POLICY UPDATE\n\nRetention schedules revised to align with current operational needs.\nExpired items are processed per disposition protocol.\nDo not duplicate archives.",
-          "text": "Read the protruding memo"
+          "resultText": "RETENTION POLICY UPDATE\n\nRetention schedules revised to align with current operational needs.\nExpired items are processed per disposition protocol.\nDo not duplicate archives."
         }
       ],
       "id": "rm_records_retention",
-      "text": "Records \u0026 Retention\n\nArchive bays extend into the back of the room. Index cabinets line the walls with a precision that suggests long-term upkeep. The terminal\u2019s screen is clean and bright, showing fields for retention windows and disposition codes.\n\nA memo has been filed improperly, protruding from a drawer."
+      "text": "Records & Retention\n\nArchive bays extend into the back of the room. Index cabinets line the walls with a precision that suggests long-term upkeep. The terminal's screen is clean and bright, showing fields for retention windows and disposition codes.\n\nA memo has been filed improperly, protruding from a drawer."
     },
     {
       "choices": [
         {
+          "id": "rm_monitoring_oversight.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_monitoring_oversight.read_placard",
+          "index": 2,
+          "verb": "read",
+          "noun": "placard",
+          "aliases": [
+            "read placard",
+            "look at placard"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_monitoring_oversight"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "OVERSIGHT\n\nobservation does not constitute authorisation."
         },
         {
+          "id": "rm_monitoring_oversight.read_summary",
+          "index": 3,
+          "verb": "read",
+          "noun": "oversight summary",
+          "aliases": [
+            "read oversight summary",
+            "read summary",
+            "look at oversight summary"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_monitoring_oversight"
             }
           ],
-          "number": 3,
-          "resultText": "OVERSIGHT\n\nObservation does not constitute authorisation.",
-          "text": "Read the placard"
+          "resultText": "AGGREGATED STATUS (SYNTHETIC)\n\nThroughput: within target band.\nVariance: recorded, unresolved.\nDisposition queue: steady.\nAccess flags: normal."
         }
       ],
       "id": "rm_monitoring_oversight",
-      "text": "Monitoring \u0026 Oversight\n\nA clean room with one desk, one chair, and a terminal that looks newer than the rest. There are no binders, no trays, no loose paper. The building is quiet enough here that you can hear the terminal fan ramp up and settle.\n\nA placard sits on the desk."
+      "text": "Monitoring & Oversight\n\nA clean room with one desk, one chair, and a wall-mounted display of aggregated metrics. No binders, no trays, no devices. The building is quiet enough here that the ventilation fan becomes a constant detail.\n\nA placard sits on the desk. A printed summary is clipped to a board."
     },
     {
       "choices": [
         {
+          "id": "rm_resource_allocation.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_resource_allocation.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_resource_allocation"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_resource_allocation.read_notice",
+          "index": 3,
+          "verb": "read",
+          "noun": "pinned notice",
+          "aliases": [
+            "read pinned notice",
+            "read notice",
+            "look at pinned notice"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_resource_allocation"
             }
           ],
-          "number": 3,
-          "resultText": "CAPACITY GUIDANCE\n\nDo not exceed reserved thresholds.\nIf thresholds are exceeded, record variance and proceed.",
-          "text": "Read the pinned notice"
+          "resultText": "CAPACITY GUIDANCE\n\nDo not exceed reserved thresholds.\nIf thresholds are exceeded, record variance and proceed."
         }
       ],
       "id": "rm_resource_allocation",
@@ -486,36 +728,56 @@
     {
       "choices": [
         {
+          "id": "rm_quality_assurance.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_quality_assurance.use_terminal",
+          "index": 2,
+          "verb": "use",
+          "noun": "terminal",
+          "aliases": [
+            "use terminal",
+            "access terminal",
+            "sit at terminal",
+            "sit down at terminal"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_quality_assurance"
             }
           ],
-          "number": 2,
-          "resultText": "Terminal interface not yet implemented.",
-          "text": "Sit down at the terminal"
+          "resultText": "Terminal interface not yet implemented."
         },
         {
+          "id": "rm_quality_assurance.read_stamp",
+          "index": 3,
+          "verb": "read",
+          "noun": "stamp",
+          "aliases": [
+            "read stamp",
+            "look at stamp"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_quality_assurance"
             }
           ],
-          "number": 3,
-          "resultText": "STAMP\n\nVERIFIED",
-          "text": "Pick up the stamp and read it"
+          "resultText": "STAMP\n\nVERIFIED"
         }
       ],
       "id": "rm_quality_assurance",
@@ -524,91 +786,140 @@
     {
       "choices": [
         {
+          "id": "rm_training_induction.go_hallway",
+          "index": 1,
+          "verb": "go",
+          "noun": "hallway",
+          "aliases": [
+            "go hallway",
+            "go to hallway"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Go to the hallway"
+          ]
         },
         {
+          "id": "rm_training_induction.read_poster",
+          "index": 2,
+          "verb": "read",
+          "noun": "poster",
+          "aliases": [
+            "read poster",
+            "look at poster"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_training_induction"
             }
           ],
-          "number": 2,
-          "resultText": "WORKPLACE PRINCIPLES\n\nConsistency.\nAccuracy.\nDiscretion.\n\nIf unsure, refer to Alignment.",
-          "text": "Read the poster"
+          "resultText": "WORKPLACE PRINCIPLES\n\nConsistency.\nAccuracy.\nDiscretion.\n\nIf unsure, refer to Alignment."
         }
       ],
       "id": "rm_training_induction",
-      "text": "Training \u0026 Induction\n\nLaminated guides and corporate posters fill the walls. The language is cheerful in the same way a form letter is cheerful. The room is designed to teach procedure, not purpose.\n\nOne poster sits at eye level."
+      "text": "Training & Induction\n\nLaminated guides and corporate posters fill the walls. The language is cheerful in the same way a form letter is cheerful. The room is designed to teach procedure, not purpose.\n\nOne poster sits at eye level."
     },
     {
       "choices": [
         {
+          "id": "hx_fl_1.enter_processing_floor",
+          "index": 1,
+          "verb": "enter",
+          "noun": "processing floor",
+          "aliases": [
+            "enter processing floor",
+            "go processing floor"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_processing_floor"
             }
-          ],
-          "number": 1,
-          "text": "Enter Processing Floor"
+          ]
         },
         {
+          "id": "hx_fl_1.enter_intake_preprocessing",
+          "index": 2,
+          "verb": "enter",
+          "noun": "intake pre-processing",
+          "aliases": [
+            "enter intake pre-processing",
+            "enter intake and pre-processing",
+            "go intake pre-processing"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_intake_preprocessing"
             }
-          ],
-          "number": 2,
-          "text": "Enter Intake \u0026 Pre-Processing"
+          ]
         },
         {
+          "id": "hx_fl_1.enter_output_consolidation",
+          "index": 3,
+          "verb": "enter",
+          "noun": "output consolidation",
+          "aliases": [
+            "enter output consolidation",
+            "go output consolidation"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_output_consolidation"
             }
-          ],
-          "number": 3,
-          "text": "Enter Output Consolidation"
+          ]
         },
         {
+          "id": "hx_fl_1.enter_break_room",
+          "index": 4,
+          "verb": "enter",
+          "noun": "break room",
+          "aliases": [
+            "enter break room",
+            "go break room"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_break_room"
             }
-          ],
-          "number": 4,
-          "text": "Enter Break Room"
+          ]
         },
         {
+          "id": "hx_fl_1.enter_infrastructure_services",
+          "index": 5,
+          "verb": "enter",
+          "noun": "infrastructure services",
+          "aliases": [
+            "enter infrastructure services",
+            "go infrastructure services"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_infrastructure_services"
             }
-          ],
-          "number": 5,
-          "text": "Enter Infrastructure Services"
+          ]
         },
         {
+          "id": "hx_fl_1.use_stairwell",
+          "index": 6,
+          "verb": "use",
+          "noun": "stairwell",
+          "aliases": [
+            "use stairwell",
+            "go stairwell"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "st_fl_1"
             }
-          ],
-          "number": 6,
-          "text": "Use the stairwell"
+          ]
         }
       ],
       "id": "hx_fl_1",
@@ -617,64 +928,102 @@
     {
       "choices": [
         {
+          "id": "hx_fl_2.enter_access_department",
+          "index": 1,
+          "verb": "enter",
+          "noun": "department of access",
+          "aliases": [
+            "enter department of access",
+            "go department of access"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_access_department"
             }
-          ],
-          "number": 1,
-          "text": "Enter Department of Access"
+          ]
         },
         {
+          "id": "hx_fl_2.enter_compliance_alignment",
+          "index": 2,
+          "verb": "enter",
+          "noun": "compliance alignment",
+          "aliases": [
+            "enter compliance alignment",
+            "enter compliance and alignment",
+            "go compliance alignment"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_compliance_alignment"
             }
-          ],
-          "number": 2,
-          "text": "Enter Compliance \u0026 Alignment"
+          ]
         },
         {
+          "id": "hx_fl_2.enter_exception_handling",
+          "index": 3,
+          "verb": "enter",
+          "noun": "exception handling",
+          "aliases": [
+            "enter exception handling",
+            "go exception handling"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_exception_handling"
             }
-          ],
-          "number": 3,
-          "text": "Enter Exception Handling"
+          ]
         },
         {
+          "id": "hx_fl_2.enter_scheduling_load_management",
+          "index": 4,
+          "verb": "enter",
+          "noun": "scheduling load management",
+          "aliases": [
+            "enter scheduling load management",
+            "enter scheduling and load management",
+            "go scheduling load management"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_scheduling_load"
             }
-          ],
-          "number": 4,
-          "text": "Enter Scheduling \u0026 Load Management"
+          ]
         },
         {
+          "id": "hx_fl_2.enter_administrative_services",
+          "index": 5,
+          "verb": "enter",
+          "noun": "administrative services",
+          "aliases": [
+            "enter administrative services",
+            "go administrative services"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_administrative_services"
             }
-          ],
-          "number": 5,
-          "text": "Enter Administrative Services"
+          ]
         },
         {
+          "id": "hx_fl_2.use_stairwell",
+          "index": 6,
+          "verb": "use",
+          "noun": "stairwell",
+          "aliases": [
+            "use stairwell",
+            "go stairwell"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "st_fl_2"
             }
-          ],
-          "number": 6,
-          "text": "Use the stairwell"
+          ]
         }
       ],
       "id": "hx_fl_2",
@@ -683,90 +1032,142 @@
     {
       "choices": [
         {
+          "id": "hx_fl_3.enter_records_retention",
+          "index": 1,
+          "verb": "enter",
+          "noun": "records retention",
+          "aliases": [
+            "enter records retention",
+            "enter records and retention",
+            "go records retention"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_records_retention"
             }
-          ],
-          "number": 1,
-          "text": "Enter Records \u0026 Retention"
+          ]
         },
         {
+          "id": "hx_fl_3.enter_monitoring_oversight",
+          "index": 2,
+          "verb": "enter",
+          "noun": "monitoring oversight",
+          "aliases": [
+            "enter monitoring oversight",
+            "enter monitoring and oversight",
+            "go monitoring oversight"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_monitoring_oversight"
             }
-          ],
-          "number": 2,
-          "text": "Enter Monitoring \u0026 Oversight"
+          ]
         },
         {
+          "id": "hx_fl_3.enter_resource_allocation",
+          "index": 3,
+          "verb": "enter",
+          "noun": "resource allocation",
+          "aliases": [
+            "enter resource allocation",
+            "go resource allocation"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_resource_allocation"
             }
-          ],
-          "number": 3,
-          "text": "Enter Resource Allocation"
+          ]
         },
         {
+          "id": "hx_fl_3.enter_quality_assurance",
+          "index": 4,
+          "verb": "enter",
+          "noun": "quality assurance",
+          "aliases": [
+            "enter quality assurance",
+            "go quality assurance"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_quality_assurance"
             }
-          ],
-          "number": 4,
-          "text": "Enter Quality Assurance"
+          ]
         },
         {
+          "id": "hx_fl_3.enter_training_induction",
+          "index": 5,
+          "verb": "enter",
+          "noun": "training induction",
+          "aliases": [
+            "enter training induction",
+            "enter training and induction",
+            "go training induction"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "rm_training_induction"
             }
-          ],
-          "number": 5,
-          "text": "Enter Training \u0026 Induction"
+          ]
         },
         {
+          "id": "hx_fl_3.use_stairwell",
+          "index": 6,
+          "verb": "use",
+          "noun": "stairwell",
+          "aliases": [
+            "use stairwell",
+            "go stairwell"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "st_fl_3"
             }
-          ],
-          "number": 6,
-          "text": "Use the stairwell"
+          ]
         }
       ],
       "id": "hx_fl_3",
-      "text": "Hallway (Floor 3)\n\nQuiet, clean, and underused. The carpet is newer here, or replaced more often. The building\u2019s hum is still present, but more distant, as if filtered.\n\nThe stairwell door closes with a heavier latch."
+      "text": "Hallway (Floor 3)\n\nQuiet, clean, and underused. The carpet is newer here, or replaced more often. The building's hum is still present, but more distant, as if filtered.\n\nThe stairwell door closes with a heavier latch."
     },
     {
       "choices": [
         {
+          "id": "st_fl_1.return_hallway_floor_1",
+          "index": 1,
+          "verb": "return",
+          "noun": "hallway floor 1",
+          "aliases": [
+            "return hallway floor 1",
+            "return to hallway floor 1"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 1,
-          "text": "Return to Hallway (Floor 1)"
+          ]
         },
         {
+          "id": "st_fl_1.go_floor_2",
+          "index": 2,
+          "verb": "go",
+          "noun": "floor 2",
+          "aliases": [
+            "go floor 2",
+            "go up floor 2",
+            "go up to floor 2"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 2,
-          "text": "Go up to Floor 2"
+          ]
         }
       ],
       "id": "st_fl_1",
@@ -775,34 +1176,54 @@
     {
       "choices": [
         {
+          "id": "st_fl_2.return_hallway_floor_2",
+          "index": 1,
+          "verb": "return",
+          "noun": "hallway floor 2",
+          "aliases": [
+            "return hallway floor 2",
+            "return to hallway floor 2"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 1,
-          "text": "Return to Hallway (Floor 2)"
+          ]
         },
         {
+          "id": "st_fl_2.go_floor_1",
+          "index": 2,
+          "verb": "go",
+          "noun": "floor 1",
+          "aliases": [
+            "go floor 1",
+            "go down floor 1",
+            "go down to floor 1"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_1"
             }
-          ],
-          "number": 2,
-          "text": "Go down to Floor 1"
+          ]
         },
         {
+          "id": "st_fl_2.go_floor_3",
+          "index": 3,
+          "verb": "go",
+          "noun": "floor 3",
+          "aliases": [
+            "go floor 3",
+            "go up floor 3",
+            "go up to floor 3"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 3,
-          "text": "Go up to Floor 3"
+          ]
         }
       ],
       "id": "st_fl_2",
@@ -811,28 +1232,41 @@
     {
       "choices": [
         {
+          "id": "st_fl_3.return_hallway_floor_3",
+          "index": 1,
+          "verb": "return",
+          "noun": "hallway floor 3",
+          "aliases": [
+            "return hallway floor 3",
+            "return to hallway floor 3"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_3"
             }
-          ],
-          "number": 1,
-          "text": "Return to Hallway (Floor 3)"
+          ]
         },
         {
+          "id": "st_fl_3.go_floor_2",
+          "index": 2,
+          "verb": "go",
+          "noun": "floor 2",
+          "aliases": [
+            "go floor 2",
+            "go down floor 2",
+            "go down to floor 2"
+          ],
           "effects": [
             {
               "type": "GotoScene",
               "value": "hx_fl_2"
             }
-          ],
-          "number": 2,
-          "text": "Go down to Floor 2"
+          ]
         }
       ],
       "id": "st_fl_3",
-      "text": "Stairwell\n\nConcrete stairs. A small sign reads: \u0022Do not loiter.\u0022 Someone has underlined it once, carefully."
+      "text": "Stairwell\n\nConcrete stairs. A small sign reads: \"Do not loiter.\" Someone has underlined it once, carefully."
     }
   ],
   "startSceneId": "rm_processing_floor"

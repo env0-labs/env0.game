@@ -55,20 +55,69 @@ public sealed class SceneRepository
             if (scene.Choices is null)
                 throw new InvalidOperationException($"Scene {scene.Id} must define choices.");
 
-            var choiceNumbers = new HashSet<int>();
+            var choiceIndexes = new HashSet<int>();
+            var choiceIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            var aliasMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
             foreach (var choice in scene.Choices)
             {
-                if (!choiceNumbers.Add(choice.Number))
-                    throw new InvalidOperationException($"Scene {scene.Id} has duplicate choice number {choice.Number}.");
+                if (string.IsNullOrWhiteSpace(choice.Id))
+                    throw new InvalidOperationException($"Scene {scene.Id} must define choice Ids.");
 
-                if (string.IsNullOrWhiteSpace(choice.Text))
-                    throw new InvalidOperationException($"Choice {choice.Number} in scene {scene.Id} must define text.");
+                if (!choiceIds.Add(choice.Id))
+                    throw new InvalidOperationException($"Scene {scene.Id} has duplicate choice Id {choice.Id}.");
+
+                if (choice.Index <= 0)
+                    throw new InvalidOperationException($"Choice {choice.Id} in scene {scene.Id} must define a positive index.");
+
+                if (!choiceIndexes.Add(choice.Index))
+                    throw new InvalidOperationException($"Scene {scene.Id} has duplicate choice index {choice.Index}.");
+
+                if (string.IsNullOrWhiteSpace(choice.Verb))
+                    throw new InvalidOperationException($"Choice {choice.Id} in scene {scene.Id} must define a verb.");
+
+                if (string.IsNullOrWhiteSpace(choice.Noun))
+                    throw new InvalidOperationException($"Choice {choice.Id} in scene {scene.Id} must define a noun.");
+
+                if (choice.Aliases is null || choice.Aliases.Count == 0)
+                    throw new InvalidOperationException($"Choice {choice.Id} in scene {scene.Id} must define aliases.");
+
+                ValidateAliases(scene.Id, choice, aliasMap);
 
                 if (choice.Effects is null || choice.Effects.Count == 0)
-                    throw new InvalidOperationException($"Choice {choice.Number} in scene {scene.Id} must define effects.");
+                    throw new InvalidOperationException($"Choice {choice.Id} in scene {scene.Id} must define effects.");
             }
         }
+    }
+
+    private static void ValidateAliases(string sceneId, ChoiceDefinition choice, Dictionary<string, string> aliasMap)
+    {
+        var canonical = $"{choice.Verb} {choice.Noun}";
+        var canonicalNormalized = ChoiceInputNormalizer.Normalize(canonical);
+        var containsCanonical = false;
+
+        foreach (var alias in choice.Aliases)
+        {
+            var normalized = ChoiceInputNormalizer.Normalize(alias);
+            if (string.IsNullOrWhiteSpace(normalized))
+                throw new InvalidOperationException($"Choice {choice.Id} in scene {sceneId} has an empty alias.");
+
+            if (string.Equals(normalized, canonicalNormalized, StringComparison.OrdinalIgnoreCase))
+                containsCanonical = true;
+
+            if (aliasMap.TryGetValue(normalized, out var existingChoiceId) &&
+                !string.Equals(existingChoiceId, choice.Id, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new InvalidOperationException(
+                    $"Alias collision in scene {sceneId}: '{alias}' matches both {existingChoiceId} and {choice.Id}."
+                );
+            }
+
+            aliasMap[normalized] = choice.Id;
+        }
+
+        if (!containsCanonical)
+            throw new InvalidOperationException($"Choice {choice.Id} in scene {sceneId} must include canonical alias '{canonical}'.");
     }
 
     private void ValidateGotoTargets()
@@ -82,7 +131,7 @@ public sealed class SceneRepository
                     if (effect.Type == EffectType.GotoScene)
                     {
                         if (string.IsNullOrWhiteSpace(effect.Value))
-                            throw new InvalidOperationException($"Effect GotoScene in scene {scene.Id} choice {choice.Number} requires a target scene.");
+                            throw new InvalidOperationException($"Effect GotoScene in scene {scene.Id} choice {choice.Id} requires a target scene.");
 
                         if (!_scenes.ContainsKey(effect.Value))
                             throw new InvalidOperationException($"Unknown target scene: {effect.Value} referenced from {scene.Id}");

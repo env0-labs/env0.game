@@ -24,6 +24,7 @@ public sealed class RecordsModule : IContextModule
     private ChoiceEvaluator? _evaluator;
     private EffectExecutor? _executor;
     private Dictionary<string, TerminalDeviceMapping>? _terminalDevicesByRoom;
+    private readonly InputRouter _inputRouter = new();
 
     public IEnumerable<OutputLine> Handle(string input, SessionState state)
     {
@@ -105,18 +106,16 @@ public sealed class RecordsModule : IContextModule
 
             AddLine(output, string.Empty);
 
-            if (!int.TryParse(input, out var selectedNumber))
+            if (_inputRouter.IsHelpCommand(input))
             {
-                AddLine(output, "Invalid input. Enter a number.");
-                AddLine(output, string.Empty);
-                RenderScene(output, state);
+                RenderScene(output, state, showNumbersOverride: true);
                 return output;
             }
 
-            var selectedChoice = scene.Choices.FirstOrDefault(c => c.Number == selectedNumber);
-            if (selectedChoice == null)
+            if (!_inputRouter.TryResolve(input, scene, out var selectedChoice) || selectedChoice == null)
             {
-                AddLine(output, "No such option.");
+                AddLine(output, "Input not recognized.");
+                AddLine(output, "Use 'options' or 'help' to display numbered choices.");
                 AddLine(output, string.Empty);
                 RenderScene(output, state);
                 return output;
@@ -190,6 +189,11 @@ public sealed class RecordsModule : IContextModule
 
     private void RenderScene(List<OutputLine> output, SessionState state)
     {
+        RenderScene(output, state, showNumbersOverride: false);
+    }
+
+    private void RenderScene(List<OutputLine> output, SessionState state, bool showNumbersOverride)
+    {
         if (_repo == null || _gameState == null || _evaluator == null)
         {
             state.IsComplete = true;
@@ -210,15 +214,24 @@ public sealed class RecordsModule : IContextModule
             return;
         }
 
-        foreach (var choice in scene.Choices.OrderBy(c => c.Number))
+        var orderedChoices = scene.Choices.OrderBy(c => c.Index).ToList();
+        var availableChoices = new List<ChoiceDefinition>();
+
+        foreach (var choice in orderedChoices)
         {
-            var enabled = _evaluator.IsEnabled(choice, _gameState, out var reason);
-            AddLine(
-                output,
-                enabled
-                    ? $"{choice.Number}. {choice.Text}"
-                    : $"{choice.Number}. {choice.Text} ({reason})"
-            );
+            if (_evaluator.IsEnabled(choice, _gameState, out _))
+                availableChoices.Add(choice);
+        }
+
+        var showList = showNumbersOverride || state.ShowNumericOptions;
+        if (showList)
+        {
+            AddLine(output, "Available:");
+            foreach (var choice in availableChoices)
+            {
+                var line = $"[{choice.Index}] {choice.Verb} {choice.Noun}";
+                AddLine(output, line);
+            }
         }
 
         AddLine(output, string.Empty);
@@ -237,10 +250,11 @@ public sealed class RecordsModule : IContextModule
 
     private static bool IsTerminalTransition(ChoiceDefinition choice)
     {
-        if (string.IsNullOrWhiteSpace(choice.Text))
+        if (string.IsNullOrWhiteSpace(choice.Verb) || string.IsNullOrWhiteSpace(choice.Noun))
             return false;
 
-        return choice.Text.Contains("Sit down at the terminal", StringComparison.OrdinalIgnoreCase);
+        return string.Equals(choice.Verb, "use", StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(choice.Noun, "terminal", StringComparison.OrdinalIgnoreCase);
     }
 
     private bool TryGetTerminalDevice(string sceneId, out TerminalDeviceMapping? device)
@@ -320,6 +334,7 @@ public sealed class RecordsModule : IContextModule
         public string? Filesystem { get; set; }
         public string? Hostname { get; set; }
     }
+
 }
 
 
