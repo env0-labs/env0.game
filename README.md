@@ -9,7 +9,7 @@ the same underlying workflow.
 
 This is not a traditional game project. There is no engine dependency,
 no renderer, and no attempt at spectacle. The experience is
-intentionally minimal, procedural, and slow.
+intentionally minimal, procedural, and slow. Once the logic is absolutely rock solid, I will decide on a front end for the project.
 
 ------------------------------------------------------------------------
 
