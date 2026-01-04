@@ -55,10 +55,29 @@
           "noun": "laminated notice",
           "resultText": "STANDARD OPERATING CONDITIONS\n\nMaintain throughput within tolerance.\nEscalate exceptions via Exception Handling.\nDo not retain copies of unassigned materials.",
           "verb": "read"
+        },
+        {
+          "aliases": [
+            "read post-it",
+            "read the post-it",
+            "look at post-it",
+            "look at the post-it"
+          ],
+          "effects": [
+            {
+              "type": "GotoScene",
+              "value": "rm_processing_floor"
+            }
+          ],
+          "id": "rm_processing_floor.choice_4",
+          "index": 4,
+          "noun": "post-it",
+          "resultText": "Note for users. To access the command line of the terminal use \u0022load CLI\u0022",
+          "verb": "read"
         }
       ],
       "id": "rm_processing_floor",
-      "text": "Processing Floor\n\nA broad open-plan room of identical desks and identical chairs. Monitor glow gathers in the corners where overhead lighting fails to reach. Power indicators blink patiently. The air is dry, faintly warm, and smells of dust and heated plastic.\n\nA laminated notice has been taped to a divider panel.\n\nA door leads back to the hallway."
+      "text": "Processing Floor\n\nA broad open-plan room of identical desks and identical chairs. Monitor glow gathers in the corners where overhead lighting fails to reach. Power indicators blink patiently. The air is dry, faintly warm, and smells of dust and heated plastic.\n\nA laminated notice has been taped to a divider panel and a post-it has been stuck to the bezel of the terminal.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -118,7 +137,7 @@
         }
       ],
       "id": "rm_intake_preprocessing",
-      "text": "Intake & Pre-Processing\n\nA staging room with long tables, shallow trays, and stacks of blank labels. The surfaces are clean in a way that suggests routine rather than care. A terminal sits at the end of the nearest table, screen idling with a dim prompt.\n\nA torn printout has been left under a paperweight.\n\nA door leads back to the hallway."
+      "text": "Intake \u0026 Pre-Processing\n\nA staging room with long tables, shallow trays, and stacks of blank labels. The surfaces are clean in a way that suggests routine rather than care. A terminal sits at the end of the nearest table, screen idling with a dim prompt.\n\nA torn printout has been left under a paperweight.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -198,7 +217,7 @@
         }
       ],
       "id": "rm_output_consolidation",
-      "text": "Output Consolidation\n\nThe room is lined with metal shelving and wheeled carts. Plastic straps, sealing tape, and label dispensers sit exactly where they should. Several carts are tagged and staged as if waiting for collection.\n\nA post-it note has been pressed onto the terminal bezel. A cart tag hangs from a handle nearby.\n\nA door leads back to the hallway."
+      "text": "Output Consolidation\n\nThe room is lined with metal shelving and wheeled carts. Plastic straps, sealing tape, and label dispensers sit exactly where they should. Several carts are tagged and staged as if waiting for collection.\n\nA post-it note has been pressed onto the terminal bezel. A cart tag hangs from a handle nearby.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -238,7 +257,7 @@
         }
       ],
       "id": "rm_break_room",
-      "text": "Break Room\n\nA vending machine hums with the confidence of a machine that will never be used again. A microwave sits on a counter with a layer of clean dust. The noticeboard is crowded with expired reminders and safety posters curling at the edges.\n\nOne printed reminder is pinned dead-centre.\n\nA door leads back to the hallway."
+      "text": "Break Room\n\nA vending machine hums with the confidence of a machine that will never be used again. A microwave sits on a counter with a layer of clean dust. The noticeboard is crowded with expired reminders and safety posters curling at the edges.\n\nOne printed reminder is pinned dead-centre.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -272,12 +291,12 @@
           "id": "rm_infrastructure_services.read_placard",
           "index": 2,
           "noun": "placard",
-          "resultText": "SERVICE PANEL\n\nDo not disable environmental controls.\nReport irregular temperatures via Scheduling & Load Management.",
+          "resultText": "SERVICE PANEL\n\nDo not disable environmental controls.\nReport irregular temperatures via Scheduling \u0026 Load Management.",
           "verb": "read"
         }
       ],
       "id": "rm_infrastructure_services",
-      "text": "Infrastructure Services\n\nA service room of cable trays and ventilation ducts. The building's quiet becomes audible here: fans, relays, and a continuous low vibration transmitted through the floor. Warning labels are present, but not dramatic.\n\nA small placard is fixed to a panel.\n\nA door leads back to the hallway."
+      "text": "Infrastructure Services\n\nA service room of cable trays and ventilation ducts. The building\u0027s quiet becomes audible here: fans, relays, and a continuous low vibration transmitted through the floor. Warning labels are present, but not dramatic.\n\nA small placard is fixed to a panel.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -337,7 +356,7 @@
         }
       ],
       "id": "rm_access_department",
-      "text": "Department of Access\n\nA narrow office with mismatched filing trays and a terminal that has seen more use than anything else in the building. The furniture is arranged for work that does not require conversation. A stack of forms sits squared against the edge of a desk.\n\nA wall notice titled GRADING QUERIES is taped beside the terminal.\n\nA door leads back to the hallway."
+      "text": "Department of Access\n\nA narrow office with mismatched filing trays and a terminal that has seen more use than anything else in the building. The furniture is arranged for work that does not require conversation. A stack of forms sits squared against the edge of a desk.\n\nA wall notice titled GRADING QUERIES is taped beside the terminal.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -395,7 +414,7 @@
         }
       ],
       "id": "rm_compliance_alignment",
-      "text": "Compliance & Alignment\n\nA room built to reduce everything to categories. Checklists are clipped to boards. Approval trays are labelled with neutral terms. The terminal displays a plain interface with fields that suggest results rather than reasons.\n\nA note has been placed under the clipboard, as if to ensure it cannot be missed.\n\nA door leads back to the hallway."
+      "text": "Compliance \u0026 Alignment\n\nA room built to reduce everything to categories. Checklists are clipped to boards. Approval trays are labelled with neutral terms. The terminal displays a plain interface with fields that suggest results rather than reasons.\n\nA note has been placed under the clipboard, as if to ensure it cannot be missed.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -454,7 +473,7 @@
         }
       ],
       "id": "rm_exception_handling",
-      "text": "Exception Handling\n\nThe lighting is slightly harsher here. Forms are piled in a way that implies constant triage. The terminal is functional, but its keyboard is glossy from repeated use. The air smells faintly of paper and toner.\n\nA strip of log output has been printed and left on the desk.\n\nA door leads back to the hallway."
+      "text": "Exception Handling\n\nThe lighting is slightly harsher here. Forms are piled in a way that implies constant triage. The terminal is functional, but its keyboard is glossy from repeated use. The air smells faintly of paper and toner.\n\nA strip of log output has been printed and left on the desk.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -513,7 +532,7 @@
         }
       ],
       "id": "rm_scheduling_load",
-      "text": "Scheduling & Load Management\n\nA planning room with wall charts that have not been updated in some time. The terminal's display is the only thing that looks current. A faded chart sits under glass, the kind of document that becomes policy because it is framed.\n\nThe headline is still readable.\n\nA door leads back to the hallway."
+      "text": "Scheduling \u0026 Load Management\n\nA planning room with wall charts that have not been updated in some time. The terminal\u0027s display is the only thing that looks current. A faded chart sits under glass, the kind of document that becomes policy because it is framed.\n\nThe headline is still readable.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -552,7 +571,7 @@
         }
       ],
       "id": "rm_administrative_services",
-      "text": "Administrative Services\n\nEmpty desks and locked cabinets. Stationery is neatly arranged for work that never arrives. A tray marked INTERNAL ROUTING contains a single memo, still crisp.\n\nThe memo is dated, but not old enough to feel historical.\n\nA door leads back to the hallway."
+      "text": "Administrative Services\n\nEmpty desks and locked cabinets. Stationery is neatly arranged for work that never arrives. A tray marked INTERNAL ROUTING contains a single memo, still crisp.\n\nThe memo is dated, but not old enough to feel historical.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -611,7 +630,7 @@
         }
       ],
       "id": "rm_records_retention",
-      "text": "Records & Retention\n\nArchive bays extend into the back of the room. Index cabinets line the walls with a precision that suggests long-term upkeep. The terminal's screen is clean and bright, showing fields for retention windows and disposition codes.\n\nA memo has been filed improperly, protruding from a drawer.\n\nA door leads back to the hallway."
+      "text": "Records \u0026 Retention\n\nArchive bays extend into the back of the room. Index cabinets line the walls with a precision that suggests long-term upkeep. The terminal\u0027s screen is clean and bright, showing fields for retention windows and disposition codes.\n\nA memo has been filed improperly, protruding from a drawer.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -668,7 +687,7 @@
         }
       ],
       "id": "rm_monitoring_oversight",
-      "text": "Monitoring & Oversight\n\nA clean room with one desk, one chair, and a wall-mounted display of aggregated metrics. No binders, no trays, no devices. The building is quiet enough here that the ventilation fan becomes a constant detail.\n\nA placard sits on the desk. A printed summary is clipped to a board.\n\nA door leads back to the hallway."
+      "text": "Monitoring \u0026 Oversight\n\nA clean room with one desk, one chair, and a wall-mounted display of aggregated metrics. No binders, no trays, no devices. The building is quiet enough here that the ventilation fan becomes a constant detail.\n\nA placard sits on the desk. A printed summary is clipped to a board.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -727,7 +746,7 @@
         }
       ],
       "id": "rm_resource_allocation",
-      "text": "Resource Allocation\n\nA room dedicated to limits. Shelves hold binders labelled by year and capacity band. The terminal displays tables and thresholds with the calm authority of something that does not need to justify itself.\n\nA notice has been pinned beside the screen.\n\nA door leads back to the hallway."
+      "text": "Resource Allocation\n\nA room dedicated to limits. Shelves hold binders labelled by year and capacity band. The terminal displays tables and thresholds with the calm authority of something that does not need to justify itself.\n\nA notice has been pinned beside the screen.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -785,7 +804,7 @@
         }
       ],
       "id": "rm_quality_assurance",
-      "text": "Quality Assurance\n\nSample trays sit in orderly rows. Stamps and clipboards are positioned with ritual precision. Nothing here appears broken. If something ever was, it has been removed.\n\nA single stamp lies face-down on the desk.\n\nA door leads back to the hallway."
+      "text": "Quality Assurance\n\nSample trays sit in orderly rows. Stamps and clipboards are positioned with ritual precision. Nothing here appears broken. If something ever was, it has been removed.\n\nA single stamp lies face-down on the desk.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -824,7 +843,7 @@
         }
       ],
       "id": "rm_training_induction",
-      "text": "Training & Induction\n\nLaminated guides and corporate posters fill the walls. The language is cheerful in the same way a form letter is cheerful. The room is designed to teach procedure, not purpose.\n\nOne poster sits at eye level.\n\nA door leads back to the hallway."
+      "text": "Training \u0026 Induction\n\nLaminated guides and corporate posters fill the walls. The language is cheerful in the same way a form letter is cheerful. The room is designed to teach procedure, not purpose.\n\nOne poster sits at eye level.\n\nA door leads to the hallway."
     },
     {
       "choices": [
@@ -1151,7 +1170,7 @@
         }
       ],
       "id": "hx_fl_3",
-      "text": "Hallway (Floor 3)\n\nQuiet, clean, and underused. The carpet is newer here, or replaced more often. The building's hum is still present, but more distant, as if filtered.\n\nThe stairwell door closes with a heavier latch.\n\nDoors are labelled: records retention, monitoring oversight, resource allocation, quality assurance, training induction."
+      "text": "Hallway (Floor 3)\n\nQuiet, clean, and underused. The carpet is newer here, or replaced more often. The building\u0027s hum is still present, but more distant, as if filtered.\n\nThe stairwell door closes with a heavier latch.\n\nDoors are labelled: records retention, monitoring oversight, resource allocation, quality assurance, training induction."
     },
     {
       "choices": [
@@ -1285,7 +1304,7 @@
         }
       ],
       "id": "st_fl_3",
-      "text": "Stairwell\n\nConcrete stairs. A small sign reads: \"Do not loiter.\" Someone has underlined it once, carefully.\n\nRoutes: return hallway floor 3; go floor 2."
+      "text": "Stairwell\n\nConcrete stairs. A small sign reads: \u0022Do not loiter.\u0022 Someone has underlined it once, carefully.\n\nRoutes: return hallway floor 3; go floor 2."
     }
   ],
   "startSceneId": "rm_processing_floor"
