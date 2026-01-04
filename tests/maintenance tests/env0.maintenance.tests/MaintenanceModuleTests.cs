@@ -43,6 +43,7 @@ public sealed class MaintenanceModuleTests
         var module = new MaintenanceModule();
         var session = new SessionState();
         module.Handle(string.Empty, session).ToList();
+        session.MaintenanceExitUnlocked = true;
 
         var output = module.Handle("Exit", session).ToList();
 
@@ -66,7 +67,7 @@ public sealed class MaintenanceModuleTests
     }
 
     [Fact]
-    public void Handle_BatchPrompt_AppearsAfterFiveParentsAndCanCompleteBatches()
+    public void Handle_BatchPrompt_AppearsAfterThreeParentsAndUnlocksExit()
     {
         var module = new MaintenanceModule();
         var session = new SessionState();
@@ -75,7 +76,7 @@ public sealed class MaintenanceModuleTests
         var promptCount = 0;
         var safety = 0;
 
-        while (!session.IsComplete && safety < 500)
+        while (promptCount == 0 && safety < 500)
         {
             safety++;
             var output = module.Handle("process", session).ToList();
@@ -88,8 +89,8 @@ public sealed class MaintenanceModuleTests
             }
         }
 
-        Assert.Equal(3, promptCount);
-        Assert.True(session.IsComplete);
+        Assert.Equal(1, promptCount);
+        Assert.True(session.MaintenanceExitUnlocked);
     }
 
     [Fact]
@@ -122,7 +123,8 @@ public sealed class MaintenanceModuleTests
         {
             RecordsReturnSceneId = "start",
             MaintenanceFilesystem = "Filesystem_9.json",
-            MaintenanceMachineId = "records.retention01"
+            MaintenanceMachineId = "records.retention01",
+            MaintenanceExitUnlocked = true
         };
         module.Handle(string.Empty, session).ToList();
 
@@ -150,6 +152,22 @@ public sealed class MaintenanceModuleTests
         Assert.Contains(response, line => line.Text == "Unrecognised input. Accepted input: y / n");
         Assert.Contains(response, line => line.Text == "> " && line.NewLine == false);
         Assert.False(session.IsComplete);
+    }
+
+    [Fact]
+    public void Handle_Status_ShowsAutomationCounts()
+    {
+        var module = new MaintenanceModule();
+        var session = new SessionState
+        {
+            AutomationEnabled = true,
+            AutomationStartTick = 0
+        };
+
+        module.Handle(string.Empty, session).ToList();
+        var output = module.Handle("status", session).ToList();
+
+        Assert.Contains(output, line => line.Text == "Automated completions: 1");
     }
 
     private static void ProcessUntilBatchPrompt(MaintenanceModule module, SessionState session)

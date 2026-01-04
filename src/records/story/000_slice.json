@@ -1,0 +1,100 @@
+{
+  "StartSceneId": "rm_processing_floor",
+  "Scenes": [
+    {
+      "Id": "rm_processing_floor",
+      "Text": "Processing Floor Records\n\nRoutine intake logs. Output tags match the current shift.\n\nDoors lead to: records retention, archive hall.",
+      "IsEnd": false,
+      "Choices": [
+        {
+          "Id": "rm_processing_floor.go_records_retention",
+          "Index": 1,
+          "Verb": "go",
+          "Noun": "records retention",
+          "Aliases": [ "go records retention", "enter records retention", "go to records retention" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_records_retention" } ]
+        },
+        {
+          "Id": "rm_processing_floor.go_archive_hall",
+          "Index": 2,
+          "Verb": "go",
+          "Noun": "archive hall",
+          "Aliases": [ "go archive hall", "enter archive hall", "go to archive hall" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_archive_hall" } ]
+        }
+      ]
+    },
+    {
+      "Id": "rm_records_retention",
+      "Text": "Records Retention\n\nA small terminal sits on the desk. A memo is clipped to a transfer form.\n\nDoors lead to: processing floor, archive hall.",
+      "IsEnd": false,
+      "Choices": [
+        {
+          "Id": "rm_records_retention.read_memo",
+          "Index": 1,
+          "Verb": "read",
+          "Noun": "memo",
+          "Aliases": [ "read memo", "look at memo" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_records_retention" } ],
+          "ResultText": "Memo: Automation is staged for this terminal. Return to Maintenance, type 'load cli', then run 'enable_automation.sh' from /ops."
+        },
+        {
+          "Id": "rm_records_retention.use_terminal",
+          "Index": 2,
+          "Verb": "use",
+          "Noun": "terminal",
+          "Aliases": [ "use terminal", "use the terminal" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_records_retention" } ]
+        },
+        {
+          "Id": "rm_records_retention.go_processing_floor",
+          "Index": 3,
+          "Verb": "go",
+          "Noun": "processing floor",
+          "Aliases": [ "go processing floor", "go to processing floor", "enter processing floor" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_processing_floor" } ]
+        },
+        {
+          "Id": "rm_records_retention.go_archive_hall",
+          "Index": 4,
+          "Verb": "go",
+          "Noun": "archive hall",
+          "Aliases": [ "go archive hall", "go to archive hall", "enter archive hall" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_archive_hall" } ]
+        }
+      ]
+    },
+    {
+      "Id": "rm_archive_hall",
+      "Text": "Archive Hall\n\nBound logs line the walls. Most entries are stamped with batch identifiers.\n\nDoors lead to: processing floor, records retention.",
+      "IsEnd": false,
+      "Choices": [
+        {
+          "Id": "rm_archive_hall.read_log",
+          "Index": 1,
+          "Verb": "read",
+          "Noun": "log",
+          "Aliases": [ "read log", "look at log" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_archive_hall" } ],
+          "ResultText": "Archive log: Processing throughput is consistent. Automated assistance logged under OPS flag."
+        },
+        {
+          "Id": "rm_archive_hall.go_processing_floor",
+          "Index": 2,
+          "Verb": "go",
+          "Noun": "processing floor",
+          "Aliases": [ "go processing floor", "go to processing floor", "enter processing floor" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_processing_floor" } ]
+        },
+        {
+          "Id": "rm_archive_hall.go_records_retention",
+          "Index": 3,
+          "Verb": "go",
+          "Noun": "records retention",
+          "Aliases": [ "go records retention", "go to records retention", "enter records retention" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_records_retention" } ]
+        }
+      ]
+    }
+  ]
+}

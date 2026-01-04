@@ -11,5 +11,12 @@ public sealed class SessionState
     public bool ShowNumericOptions { get; set; }
     public string? MaintenanceMachineId { get; set; }
     public string? MaintenanceFilesystem { get; set; }
+    public int InputTicks { get; set; }
+    public bool AutomationEnabled { get; set; }
+    public int AutomationStartTick { get; set; }
+    public int AutomationCompleted { get; set; }
+    public int ManualCompletions { get; set; }
+    public int BatchesCompleted { get; set; }
+    public bool MaintenanceExitUnlocked { get; set; }
 }
 

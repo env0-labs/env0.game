@@ -14,8 +14,8 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var alpha = "test_records_alpha.json";
-        var beta = "test_records_beta.json";
+        var alpha = "0000_test_records_alpha.json";
+        var beta = "0001_test_records_beta.json";
 
         CreateStoryFile(alpha, BuildSingleChoiceStoryJson("Alpha scene."));
         CreateStoryFile(beta, BuildEndStoryJson("start", "Beta scene."));
@@ -42,7 +42,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_running.json";
+        var story = "0000_test_records_running.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Start scene."));
 
@@ -71,7 +71,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_complete.json";
+        var story = "0000_test_records_complete.json";
 
         CreateStoryFile(story, BuildEndStoryJson("start", "End scene."));
 
@@ -95,7 +95,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_terminal.json";
+        var story = "0000_test_records_terminal.json";
         var devicesJson = @"[
   { ""recordsRoomId"": ""start"", ""filesystem"": ""Filesystem_1.json"", ""hostname"": ""proc.floor01"" }
 ]";
@@ -127,7 +127,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_terminal_missing_device.json";
+        var story = "0000_test_records_terminal_missing_device.json";
 
         CreateStoryFile(story, BuildTerminalStoryJson("Terminal missing device."));
 
@@ -156,7 +156,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_resume.json";
+        var story = "0000_test_records_resume.json";
 
         CreateStoryFile(story, BuildTerminalStoryJson("Resume scene."));
 
@@ -180,13 +180,37 @@ public sealed class RecordsModuleTests
     }
 
     [Fact]
+    public void Handle_ShowsWorkStatusWhenAutomationEnabled()
+    {
+        var module = new RecordsModule();
+        var session = new SessionState
+        {
+            AutomationEnabled = true,
+            AutomationStartTick = 0
+        };
+        var story = "0000_test_records_status.json";
+
+        CreateStoryFile(story, BuildSingleChoiceStoryJson("Status scene."));
+
+        try
+        {
+            var output = module.Handle(string.Empty, session).ToList();
+            Assert.Contains(output, line => line.Text.StartsWith("Work status:", StringComparison.Ordinal));
+        }
+        finally
+        {
+            DeleteStoryFile(story);
+        }
+    }
+
+    [Fact]
     public void Handle_ResolvesNumericAndAliasToSameChoice()
     {
         var numericModule = new RecordsModule();
         var aliasModule = new RecordsModule();
         var numericSession = new SessionState();
         var aliasSession = new SessionState();
-        var story = "test_records_alias.json";
+        var story = "0000_test_records_alias.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Alias scene.", "MEMO BODY"));
 
@@ -212,7 +236,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_numbers_hidden.json";
+        var story = "0000_test_records_numbers_hidden.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Hidden numbers scene."));
 
@@ -235,7 +259,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_options.json";
+        var story = "0000_test_records_options.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Options scene."));
 
@@ -261,7 +285,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_unknown_verb.json";
+        var story = "0000_test_records_unknown_verb.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Unknown verb scene."));
 
@@ -287,7 +311,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_known_verb.json";
+        var story = "0000_test_records_known_verb.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Known verb scene."));
 
@@ -313,7 +337,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_numeric_hidden.json";
+        var story = "0000_test_records_numeric_hidden.json";
 
         CreateStoryFile(story, BuildSingleChoiceStoryJson("Numeric hidden scene.", "NUMERIC BODY"));
 
@@ -337,7 +361,7 @@ public sealed class RecordsModuleTests
     {
         var module = new RecordsModule();
         var session = new SessionState();
-        var story = "test_records_collision.json";
+        var story = "0000_test_records_collision.json";
 
         CreateStoryFile(story, BuildAliasCollisionStoryJson());
 

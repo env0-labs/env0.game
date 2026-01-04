@@ -195,7 +195,7 @@
     "mac": "00:11:22:33:44:10",
     "username": "operator",
     "password": "pass",
-    "filesystem": "Filesystem_10.json",
+    "filesystem": "Filesystem_slice.json",
     "recordsRoomId": "rm_records_retention",
     "motd": "RECORDS & RETENTION - Do not duplicate archives.",
     "description": "Records & Retention terminal. Maintains archives and retention schedules; executes disposition protocol.",

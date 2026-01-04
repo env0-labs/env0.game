@@ -132,6 +132,32 @@ namespace Env0.Terminal.Config
 
             Filesystems["Filesystem_11.json"] = safeFs;
             ValidationErrors.AddRange(safeErrors);
+
+            LoadAdditionalFilesystems(
+                "Config/Jsons/JsonFilesystems",
+                "Env0.Terminal/Config/Jsons/JsonFilesystems"
+            );
+        }
+
+        private static void LoadAdditionalFilesystems(params string[] directories)
+        {
+            foreach (var directory in directories)
+            {
+                if (!Directory.Exists(directory))
+                    continue;
+
+                var files = Directory.GetFiles(directory, "Filesystem_*.json");
+                foreach (var file in files)
+                {
+                    var name = Path.GetFileName(file);
+                    if (string.IsNullOrWhiteSpace(name) || Filesystems.ContainsKey(name))
+                        continue;
+
+                    var fs = LoadFilesystem(file, out var fsErrors);
+                    Filesystems[name] = fs;
+                    ValidationErrors.AddRange(fsErrors);
+                }
+            }
         }
 
         // --- Rest of your methods are unchanged! ---

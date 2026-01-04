@@ -4,9 +4,11 @@ namespace env0.maintenance;
 
 public sealed class MaintenanceModule : IContextModule
 {
-    private readonly int[] _containerSizes = { 7, 6, 5, 12, 4, 8 };
+    private readonly int[] _containerSizes = { 1, 1, 1 };
     private readonly Random _rng = new(1977);
     private const string ScriptTag = "kill-child";
+    private const int BatchPromptThreshold = 3;
+    private const int AutomationTickInterval = 2;
     private int _containerSizeIndex;
     private bool _initialized;
     private int _parentIndex = 1;
@@ -24,6 +26,9 @@ public sealed class MaintenanceModule : IContextModule
         if (state.IsComplete)
             return output;
 
+        IncrementInputTicks(state);
+        var automationDelta = ApplyAutomation(state);
+
         if (!_initialized)
         {
             _initialized = true;
@@ -31,9 +36,12 @@ public sealed class MaintenanceModule : IContextModule
             if (!string.IsNullOrWhiteSpace(state.MaintenanceMachineId))
                 AddLine(output, $"{state.MaintenanceMachineId} is loading...");
             AddLine(output, string.Empty);
+            AppendAutomationUpdate(output, automationDelta);
             AddPrompt(output);
             return output;
         }
+
+        AppendAutomationUpdate(output, automationDelta);
 
         if (_batchPromptActive)
         {
@@ -52,10 +60,10 @@ public sealed class MaintenanceModule : IContextModule
         switch (trimmed.ToLowerInvariant())
         {
             case "process":
-                ProcessNext(output);
+                ProcessNext(output, state);
                 break;
             case "status":
-                RenderStatus(output);
+                RenderStatus(output, state);
                 break;
             case "load cli":
                 AddLine(output, "Loading CLI...");
@@ -67,6 +75,13 @@ public sealed class MaintenanceModule : IContextModule
                 state.MaintenanceFilesystem = null;
                 return output;
             case "exit":
+                if (!state.MaintenanceExitUnlocked)
+                {
+                    AddLine(output, "Exit is locked. Complete a batch first.");
+                    AddLine(output, string.Empty);
+                    AddPrompt(output);
+                    return output;
+                }
                 AddLine(output, "Exiting...");
                 state.NextContext = ContextRoute.Records;
                 if (!string.IsNullOrWhiteSpace(state.RecordsReturnSceneId))
@@ -84,13 +99,14 @@ public sealed class MaintenanceModule : IContextModule
         return output;
     }
 
-    private void ProcessNext(List<OutputLine> output)
+    private void ProcessNext(List<OutputLine> output, SessionState state)
     {
         EnsureParentSize();
 
         if (_parentSize == null)
             return;
 
+        state.ManualCompletions++;
         AppendProcessHeader(output);
         AppendScriptLog(output);
 
@@ -107,7 +123,7 @@ public sealed class MaintenanceModule : IContextModule
             AddLine(output, string.Empty);
 
             _containersCompletedSinceBatch++;
-            if (!_batchPromptDismissed && _containersCompletedSinceBatch >= 5)
+            if (!_batchPromptDismissed && _containersCompletedSinceBatch >= BatchPromptThreshold)
             {
                 AddLine(output, "Batch completed containers? (y/n)");
                 AddPrompt(output);
@@ -127,7 +143,7 @@ public sealed class MaintenanceModule : IContextModule
         _processedCount = 0;
     }
 
-    private void RenderStatus(List<OutputLine> output)
+    private void RenderStatus(List<OutputLine> output, SessionState state)
     {
         EnsureParentSize();
 
@@ -137,6 +153,9 @@ public sealed class MaintenanceModule : IContextModule
 
         var remaining = _parentSize == null ? 0 : Math.Max(0, _parentSize.Value - _processedCount);
         AddLine(output, $"Children remaining: {remaining}");
+        AddLine(output, $"Manual completions: {state.ManualCompletions}");
+        AddLine(output, $"Automated completions: {state.AutomationCompleted}");
+        AddLine(output, $"Batches recorded: {state.BatchesCompleted}");
         AddLine(output, string.Empty);
         AddLine(output, "[ PARENT ]");
 
@@ -184,17 +203,12 @@ public sealed class MaintenanceModule : IContextModule
         if (trimmed.Equals("y", StringComparison.OrdinalIgnoreCase))
         {
             _batchesCompleted++;
+            state.BatchesCompleted = _batchesCompleted;
             _containersCompletedSinceBatch = 0;
             _batchPromptActive = false;
             AddLine(output, "Batch recorded.");
-            AddLine(output, "Type 'exit' to exit this program at any time.");
-
-            if (_batchesCompleted >= 3)
-            {
-                AddLine(output, "Batch threshold reached.");
-                state.IsComplete = true;
-                return;
-            }
+            state.MaintenanceExitUnlocked = true;
+            AddLine(output, "Exit unlocked. Type 'exit' to return to Records.");
 
             AddLine(output, string.Empty);
             AddPrompt(output);
@@ -233,6 +247,38 @@ public sealed class MaintenanceModule : IContextModule
         }
 
         AddLine(output, $"[{tag}] done");
+        AddLine(output, string.Empty);
+    }
+
+    private static void IncrementInputTicks(SessionState state)
+    {
+        state.InputTicks++;
+    }
+
+    private static int ApplyAutomation(SessionState state)
+    {
+        if (!state.AutomationEnabled)
+            return 0;
+
+        var ticksSinceEnable = state.InputTicks - state.AutomationStartTick;
+        if (ticksSinceEnable < 0)
+            return 0;
+
+        var total = ticksSinceEnable / AutomationTickInterval;
+        if (total <= state.AutomationCompleted)
+            return 0;
+
+        var delta = total - state.AutomationCompleted;
+        state.AutomationCompleted = total;
+        return delta;
+    }
+
+    private static void AppendAutomationUpdate(List<OutputLine> output, int delta)
+    {
+        if (delta <= 0)
+            return;
+
+        AddLine(output, $"AUTOMATION: processed {delta} unit(s).");
         AddLine(output, string.Empty);
     }
 

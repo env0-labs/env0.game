@@ -54,7 +54,13 @@ namespace Env0.Terminal
                 var match = devices.FirstOrDefault(d =>
                     string.Equals(d.Filesystem, requestedFilesystem, System.StringComparison.OrdinalIgnoreCase));
                 if (match != null)
+                {
                     localDevice = match;
+                }
+                else
+                {
+                    localDevice.Filesystem = requestedFilesystem;
+                }
             }
 
             var fsPoco = JsonLoader.Filesystems.ContainsKey(localDevice.Filesystem)
@@ -62,7 +68,10 @@ namespace Env0.Terminal
                 : null;
 
             if (fsPoco == null)
-                throw new System.Exception("Critical config missing: Devices or Filesystem_1.json");
+            {
+                var target = string.IsNullOrWhiteSpace(localDevice?.Filesystem) ? "Filesystem_1.json" : localDevice.Filesystem;
+                throw new System.Exception($"Critical config missing: Devices or {target}");
+            }
 
             var fsRootNode = new FileEntry { Children = fsPoco.Root };
             _filesystemManager = FilesystemManager.FromPocoRoot(fsRootNode);
@@ -183,7 +192,7 @@ namespace Env0.Terminal
                             string warning = string.IsNullOrEmpty(_capturedPassword)
                                 ? "no password? well you like to live dangerously... I'll allow it\n"
                                 : "";
-                            return BuildRenderState($"{warning}Login complete!\n\nType read tutorial.txt for instructions\n");
+                            return BuildRenderState($"{warning}Login complete!\n\nType ls to view available files\n");
                         }
                         // Reset to username prompt on any weird state
                         _loginStep = LoginStep.Username;

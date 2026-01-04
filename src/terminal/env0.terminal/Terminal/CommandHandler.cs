@@ -18,6 +18,7 @@ namespace Env0.Terminal.Terminal
             RegisterCommand("read", new ReadCommand());
             RegisterCommand("echo", new EchoCommand());
             RegisterCommand("clear", new ClearCommand());
+            RegisterCommand("run", new RunCommand());
             RegisterCommand("ping", new PingCommand());
             RegisterCommand("nmap", new NmapCommand());
             RegisterCommand("ssh", new SshCommand());

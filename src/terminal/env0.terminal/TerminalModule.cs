@@ -14,6 +14,9 @@ namespace Env0.Terminal
 
         public IEnumerable<OutputLine> Handle(string input, SessionState state)
         {
+            TerminalAutomationBridge.Bind(state);
+            state.InputTicks++;
+
             var trimmed = (input ?? string.Empty).Trim();
             if (trimmed.Equals("quit", StringComparison.OrdinalIgnoreCase))
             {

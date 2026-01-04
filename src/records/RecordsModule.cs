@@ -9,6 +9,7 @@ namespace env0.records;
 
 public sealed class RecordsModule : IContextModule
 {
+    private const int AutomationTickInterval = 2;
     private enum RecordsPhase
     {
         Booting,
@@ -32,6 +33,8 @@ public sealed class RecordsModule : IContextModule
 
         if (state.IsComplete || _phase == RecordsPhase.Completed)
             return output;
+
+        IncrementInputTicks(state);
 
         if (_phase == RecordsPhase.Booting)
         {
@@ -192,7 +195,7 @@ public sealed class RecordsModule : IContextModule
 
         var stories = Directory
             .GetFiles(storyDirectory, "*.json", SearchOption.TopDirectoryOnly)
-            .OrderBy(Path.GetFileName)
+            .OrderBy(Path.GetFileName, StringComparer.OrdinalIgnoreCase)
             .ToList();
 
         if (stories.Count == 0)
@@ -224,6 +227,7 @@ public sealed class RecordsModule : IContextModule
         var scene = _repo.Get(_gameState.CurrentSceneId);
 
         AddLine(output, scene.Text);
+        AppendWorkStatus(output, state);
         AddLine(output, string.Empty);
 
         if (scene.IsEnd)
@@ -363,6 +367,36 @@ public sealed class RecordsModule : IContextModule
             .Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(value => value, StringComparer.OrdinalIgnoreCase)
             .ToList();
+    }
+
+    private static void IncrementInputTicks(SessionState state)
+    {
+        state.InputTicks++;
+    }
+
+    private static void AppendWorkStatus(List<OutputLine> output, SessionState state)
+    {
+        var automationTotal = GetAutomationTotal(state);
+        if (!state.AutomationEnabled &&
+            state.ManualCompletions == 0 &&
+            automationTotal == 0 &&
+            state.BatchesCompleted == 0)
+            return;
+
+        var line = $"Work status: manual {state.ManualCompletions} | automated {automationTotal} | batches {state.BatchesCompleted}";
+        AddLine(output, line);
+    }
+
+    private static int GetAutomationTotal(SessionState state)
+    {
+        if (!state.AutomationEnabled)
+            return 0;
+
+        var ticksSinceEnable = state.InputTicks - state.AutomationStartTick;
+        if (ticksSinceEnable < 0)
+            return 0;
+
+        return ticksSinceEnable / AutomationTickInterval;
     }
 
 }
