@@ -1,4 +1,7 @@
 using System;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -16,9 +19,12 @@ namespace Env0.Runner.Wpf
         private readonly Paragraph _paragraph = new Paragraph();
         private readonly Run _inputRun = new Run();
         private readonly InputHistory _inputHistory = new InputHistory();
+        private readonly SemaphoreSlim _outputLock = new SemaphoreSlim(1, 1);
         private IContextModule _currentModule;
         private string _originalDirectory = string.Empty;
         private bool _suppressSelectionChanged;
+        private const int StreamDelayMs = 8;
+        private const int StreamChunkSize = 2;
 
         public MainWindow()
         {
@@ -30,11 +36,11 @@ namespace Env0.Runner.Wpf
             Closed += OnClosed;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             _originalDirectory = Environment.CurrentDirectory;
             Environment.CurrentDirectory = AppContext.BaseDirectory;
-            StartModule(_currentModule);
+            await StartModuleAsync(_currentModule);
             FocusInput();
         }
 
@@ -62,14 +68,14 @@ namespace Env0.Runner.Wpf
             {
                 _inputHistory.Set("options");
                 UpdateInputDisplay();
-                CommitInput();
+                _ = CommitInputAsync();
                 e.Handled = true;
                 return;
             }
 
             if (e.Key == Key.Enter)
             {
-                CommitInput();
+                _ = CommitInputAsync();
                 e.Handled = true;
                 return;
             }
@@ -117,16 +123,16 @@ namespace Env0.Runner.Wpf
             FocusInput();
         }
 
-        private void StartModule(IContextModule module)
+        private async Task StartModuleAsync(IContextModule module)
         {
             _currentModule = module;
             _session.IsComplete = false;
             _session.NextContext = ContextRoute.None;
-            AppendOutput(module.Handle(string.Empty, _session));
-            AdvanceRoutingIfNeeded();
+            await AppendOutputAsync(module.Handle(string.Empty, _session));
+            await AdvanceRoutingIfNeededAsync();
         }
 
-        private void AdvanceRoutingIfNeeded()
+        private async Task AdvanceRoutingIfNeededAsync()
         {
             while (_session.IsComplete && _session.NextContext != ContextRoute.None)
             {
@@ -134,7 +140,7 @@ namespace Env0.Runner.Wpf
                 _session.IsComplete = false;
                 _session.NextContext = ContextRoute.None;
                 _currentModule = CreateModule(next);
-                AppendOutput(_currentModule.Handle(string.Empty, _session));
+                await AppendOutputAsync(_currentModule.Handle(string.Empty, _session));
             }
         }
 
@@ -149,20 +155,28 @@ namespace Env0.Runner.Wpf
             };
         }
 
-        private void SubmitInput(string input)
+        private async Task SubmitInputAsync(string input)
         {
+            await _outputLock.WaitAsync();
+            try
+            {
             if (_session.IsComplete && _session.NextContext != ContextRoute.None)
-                AdvanceRoutingIfNeeded();
+                await AdvanceRoutingIfNeededAsync();
 
             if (_session.IsComplete && _session.NextContext == ContextRoute.None)
                 return;
 
-            AppendOutput(_currentModule.Handle(input, _session));
-            AdvanceRoutingIfNeeded();
-            FocusInput();
+                await AppendOutputAsync(_currentModule.Handle(input, _session));
+                await AdvanceRoutingIfNeededAsync();
+                FocusInput();
+            }
+            finally
+            {
+                _outputLock.Release();
+            }
         }
 
-        private void AppendOutput(IEnumerable<OutputLine> lines)
+        private async Task AppendOutputAsync(IEnumerable<OutputLine> lines)
         {
             if (lines == null)
             {
@@ -174,20 +188,70 @@ namespace Env0.Runner.Wpf
             _inputHistory.Clear();
             RemoveInputRun();
 
-            foreach (var line in lines)
-            {
-                AppendOutputLine(line);
-            }
+            if (ShouldReplaceOutput())
+                _paragraph.Inlines.Clear();
+
+            if (ShouldStreamOutput())
+                await AppendOutputStreamedAsync(lines);
+            else
+                AppendOutputImmediate(lines);
 
             EnsureInputRun();
             TranscriptBox.ScrollToEnd();
             UpdateInputDisplay();
         }
 
+        private void AppendOutputImmediate(IEnumerable<OutputLine> lines)
+        {
+            foreach (var line in lines)
+            {
+                AppendOutputLine(line);
+            }
+        }
+
+        private async Task AppendOutputStreamedAsync(IEnumerable<OutputLine> lines)
+        {
+            foreach (var line in lines)
+            {
+                await AppendOutputLineStreamedAsync(line);
+            }
+        }
+
         private void AppendOutputLine(OutputLine line)
         {
             var run = OutputLineStyler.CreateRun(line);
             _paragraph.Inlines.Add(run);
+
+            if (line.NewLine)
+                _paragraph.Inlines.Add(new LineBreak());
+        }
+
+        private async Task AppendOutputLineStreamedAsync(OutputLine line)
+        {
+            var run = OutputLineStyler.CreateRun(line);
+            _paragraph.Inlines.Add(run);
+
+            var text = line.Text ?? string.Empty;
+            if (text.Length == 0)
+            {
+                if (line.NewLine)
+                    _paragraph.Inlines.Add(new LineBreak());
+                return;
+            }
+
+            var buffer = new StringBuilder(text.Length);
+            run.Text = string.Empty;
+
+            for (var i = 0; i < text.Length; i += StreamChunkSize)
+            {
+                var count = Math.Min(StreamChunkSize, text.Length - i);
+                buffer.Append(text, i, count);
+                run.Text = buffer.ToString();
+                TranscriptBox.ScrollToEnd();
+
+                if (StreamDelayMs > 0)
+                    await Task.Delay(StreamDelayMs);
+            }
 
             if (line.NewLine)
                 _paragraph.Inlines.Add(new LineBreak());
@@ -201,12 +265,12 @@ namespace Env0.Runner.Wpf
             Dispatcher.BeginInvoke(() => { _suppressSelectionChanged = false; });
         }
 
-        private void CommitInput()
+        private async Task CommitInputAsync()
         {
             var input = _inputHistory.Commit();
             RemoveInputRun();
             _paragraph.Inlines.Add(new LineBreak());
-            SubmitInput(input);
+            await SubmitInputAsync(input);
         }
 
         private void UpdateInputDisplay()
@@ -245,6 +309,18 @@ namespace Env0.Runner.Wpf
         {
             if (!_paragraph.Inlines.Contains(_inputRun))
                 _paragraph.Inlines.Add(_inputRun);
+        }
+
+        private bool ShouldReplaceOutput()
+        {
+            return _currentModule is MaintenanceModule || _currentModule is RecordsModule;
+        }
+
+        private bool ShouldStreamOutput()
+        {
+            return _currentModule is MaintenanceModule ||
+                   _currentModule is RecordsModule ||
+                   _currentModule is TerminalModule;
         }
     }
 }
