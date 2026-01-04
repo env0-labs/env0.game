@@ -9,13 +9,13 @@ public sealed class MaintenanceModule : IContextModule
     private const string ScriptTag = "kill-child";
     private const int BatchPromptThreshold = 3;
     private const int AutomationTickInterval = 2;
+    private const int NoteMaxLength = 120;
     private int _containerSizeIndex;
     private bool _initialized;
     private int _parentIndex = 1;
     private int? _parentSize;
     private int _processedCount;
     private int _containersCompletedSinceBatch;
-    private int _batchesCompleted;
     private bool _batchPromptActive;
     private bool _batchPromptDismissed;
 
@@ -42,6 +42,12 @@ public sealed class MaintenanceModule : IContextModule
         }
 
         AppendAutomationUpdate(output, automationDelta);
+
+        if (state.MaintenanceVariant == MaintenanceVariant.Retention)
+        {
+            HandleRetentionCommand(input, state, output);
+            return output;
+        }
 
         if (_batchPromptActive)
         {
@@ -202,8 +208,8 @@ public sealed class MaintenanceModule : IContextModule
         var trimmed = (input ?? string.Empty).Trim();
         if (trimmed.Equals("y", StringComparison.OrdinalIgnoreCase))
         {
-            _batchesCompleted++;
-            state.BatchesCompleted = _batchesCompleted;
+            var completed = _containersCompletedSinceBatch;
+            CreateBatch(state, completed, "manual");
             _containersCompletedSinceBatch = 0;
             _batchPromptActive = false;
             AddLine(output, "Batch recorded.");
@@ -270,7 +276,31 @@ public sealed class MaintenanceModule : IContextModule
 
         var delta = total - state.AutomationCompleted;
         state.AutomationCompleted = total;
+        CreateAutomationBatches(state);
         return delta;
+    }
+
+    private static void CreateAutomationBatches(SessionState state)
+    {
+        var totalBatches = state.AutomationCompleted / BatchPromptThreshold;
+        while (state.AutomationBatchesCreated < totalBatches)
+        {
+            state.AutomationBatchesCreated++;
+            var id = $"B-{state.NextBatchId + 1:0000}";
+            state.NextBatchId++;
+            state.BatchesCompleted++;
+
+            state.MaintenanceBatches.Add(new MaintenanceBatch
+            {
+                Id = id,
+                Count = BatchPromptThreshold,
+                Source = "automation",
+                CreatedTick = state.InputTicks,
+                Category = null,
+                Note = null,
+                Submitted = false
+            });
+        }
     }
 
     private static void AppendAutomationUpdate(List<OutputLine> output, int delta)
@@ -280,6 +310,280 @@ public sealed class MaintenanceModule : IContextModule
 
         AddLine(output, $"AUTOMATION: processed {delta} unit(s).");
         AddLine(output, string.Empty);
+    }
+
+    private void HandleRetentionCommand(string input, SessionState state, List<OutputLine> output)
+    {
+        var trimmed = (input ?? string.Empty).Trim();
+        if (trimmed.Length == 0)
+        {
+            RenderRetentionInvalidCommand(output);
+            AddPrompt(output);
+            return;
+        }
+
+        var parts = trimmed.Split(' ', 3, StringSplitOptions.RemoveEmptyEntries);
+        var verb = parts[0].ToLowerInvariant();
+
+        switch (verb)
+        {
+            case "queue":
+                RenderQueue(output, state);
+                break;
+            case "open":
+                RenderOpen(output, state, parts);
+                break;
+            case "file":
+                HandleFile(output, state, parts);
+                break;
+            case "note":
+                HandleNote(output, state, parts);
+                break;
+            case "submit":
+                HandleSubmit(output, state, parts);
+                break;
+            case "summary":
+                RenderSummary(output, state);
+                break;
+            case "status":
+                RenderStatus(output, state);
+                break;
+            case "exit":
+                AddLine(output, "Exiting...");
+                state.NextContext = ContextRoute.Records;
+                if (!string.IsNullOrWhiteSpace(state.RecordsReturnSceneId))
+                    state.ResumeRecords = true;
+                state.IsComplete = true;
+                state.MaintenanceMachineId = null;
+                state.MaintenanceFilesystem = null;
+                return;
+            default:
+                RenderRetentionInvalidCommand(output);
+                break;
+        }
+
+        AddPrompt(output);
+    }
+
+    private void RenderQueue(List<OutputLine> output, SessionState state)
+    {
+        var unfiled = state.MaintenanceBatches.Where(batch => !batch.Submitted).ToList();
+        if (unfiled.Count == 0)
+        {
+            AddLine(output, "Queue empty.");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        AddLine(output, "Unfiled batches:");
+        foreach (var batch in unfiled)
+        {
+            var category = string.IsNullOrWhiteSpace(batch.Category) ? "unassigned" : batch.Category;
+            AddLine(output, $"{batch.Id} | source {batch.Source} | items {batch.Count} | category {category}");
+        }
+        AddLine(output, string.Empty);
+    }
+
+    private void RenderOpen(List<OutputLine> output, SessionState state, string[] parts)
+    {
+        if (parts.Length < 2)
+        {
+            AddLine(output, "Usage: open <batchId>");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var batch = FindBatch(state, parts[1]);
+        if (batch == null)
+        {
+            AddLine(output, $"Batch not found: {parts[1]}");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        AddLine(output, $"Batch {batch.Id}");
+        AddLine(output, $"Source: {batch.Source}");
+        AddLine(output, $"Items: {batch.Count}");
+        AddLine(output, $"Category: {batch.Category ?? "unassigned"}");
+        AddLine(output, $"Note: {batch.Note ?? "(none)"}");
+        AddLine(output, $"Status: {(batch.Submitted ? "submitted" : "unfiled")}");
+        AddLine(output, string.Empty);
+    }
+
+    private void HandleFile(List<OutputLine> output, SessionState state, string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLine(output, "Usage: file <batchId> <category>");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var batch = FindBatch(state, parts[1]);
+        if (batch == null)
+        {
+            AddLine(output, $"Batch not found: {parts[1]}");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var category = parts[2].Trim().ToLowerInvariant();
+        if (!IsValidCategory(category))
+        {
+            AddLine(output, "Invalid category. Use: retain, purge, escalate, unknown.");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        batch.Category = category;
+        AddLine(output, $"Batch {batch.Id} categorized as {category}.");
+        AddLine(output, string.Empty);
+    }
+
+    private void HandleNote(List<OutputLine> output, SessionState state, string[] parts)
+    {
+        if (parts.Length < 3)
+        {
+            AddLine(output, "Usage: note <batchId> <text>");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var batch = FindBatch(state, parts[1]);
+        if (batch == null)
+        {
+            AddLine(output, $"Batch not found: {parts[1]}");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var note = parts[2].Trim();
+        if (note.Length == 0)
+        {
+            AddLine(output, "Note cannot be empty.");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        if (note.Length > NoteMaxLength)
+        {
+            AddLine(output, $"Note too long. Max length is {NoteMaxLength}.");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        batch.Note = note;
+        AddLine(output, $"Note recorded for {batch.Id}.");
+        AddLine(output, string.Empty);
+    }
+
+    private void HandleSubmit(List<OutputLine> output, SessionState state, string[] parts)
+    {
+        if (parts.Length < 2)
+        {
+            AddLine(output, "Usage: submit <batchId>");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var batch = FindBatch(state, parts[1]);
+        if (batch == null)
+        {
+            AddLine(output, $"Batch not found: {parts[1]}");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        batch.Submitted = true;
+        AddLine(output, $"Batch {batch.Id} submitted.");
+        AddLine(output, string.Empty);
+    }
+
+    private void RenderSummary(List<OutputLine> output, SessionState state)
+    {
+        var batches = state.MaintenanceBatches;
+        if (batches.Count == 0)
+        {
+            AddLine(output, "No batches recorded.");
+            AddLine(output, string.Empty);
+            return;
+        }
+
+        var counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["retain"] = 0,
+            ["purge"] = 0,
+            ["escalate"] = 0,
+            ["unknown"] = 0,
+            ["unassigned"] = 0
+        };
+
+        foreach (var batch in batches)
+        {
+            var key = string.IsNullOrWhiteSpace(batch.Category) ? "unassigned" : batch.Category;
+            if (!counts.ContainsKey(key))
+                counts["unassigned"]++;
+            else
+                counts[key]++;
+        }
+
+        AddLine(output, "Summary:");
+        AddLine(output, $"retain: {counts["retain"]}");
+        AddLine(output, $"purge: {counts["purge"]}");
+        AddLine(output, $"escalate: {counts["escalate"]}");
+        AddLine(output, $"unknown: {counts["unknown"]}");
+        AddLine(output, $"unassigned: {counts["unassigned"]}");
+        AddLine(output, string.Empty);
+    }
+
+    private static MaintenanceBatch? FindBatch(SessionState state, string batchId)
+    {
+        return state.MaintenanceBatches.FirstOrDefault(batch =>
+            string.Equals(batch.Id, batchId, StringComparison.OrdinalIgnoreCase));
+    }
+
+    private static bool IsValidCategory(string category)
+    {
+        return category == "retain" ||
+               category == "purge" ||
+               category == "escalate" ||
+               category == "unknown";
+    }
+
+    private static void RenderRetentionInvalidCommand(List<OutputLine> output)
+    {
+        AddLine(output, "ERROR");
+        AddLine(output, string.Empty);
+        AddLine(output, "Unrecognised command.");
+        AddLine(output, string.Empty);
+        AddLine(output, "Accepted commands:");
+        AddLine(output, "- queue");
+        AddLine(output, "- open <batchId>");
+        AddLine(output, "- file <batchId> <category>");
+        AddLine(output, "- note <batchId> <text>");
+        AddLine(output, "- submit <batchId>");
+        AddLine(output, "- summary");
+        AddLine(output, "- status");
+        AddLine(output, "- exit");
+        AddLine(output, string.Empty);
+    }
+
+    private void CreateBatch(SessionState state, int count, string source)
+    {
+        var id = $"B-{state.NextBatchId + 1:0000}";
+        state.NextBatchId++;
+        state.BatchesCompleted++;
+
+        state.MaintenanceBatches.Add(new MaintenanceBatch
+        {
+            Id = id,
+            Count = Math.Max(1, count),
+            Source = source,
+            CreatedTick = state.InputTicks,
+            Category = null,
+            Note = null,
+            Submitted = false
+        });
     }
 
     private static class PhraseBank

@@ -11,6 +11,7 @@ public sealed class SessionState
     public bool ShowNumericOptions { get; set; }
     public string? MaintenanceMachineId { get; set; }
     public string? MaintenanceFilesystem { get; set; }
+    public MaintenanceVariant MaintenanceVariant { get; set; } = MaintenanceVariant.Processing;
     public int InputTicks { get; set; }
     public bool AutomationEnabled { get; set; }
     public int AutomationStartTick { get; set; }
@@ -18,5 +19,8 @@ public sealed class SessionState
     public int ManualCompletions { get; set; }
     public int BatchesCompleted { get; set; }
     public bool MaintenanceExitUnlocked { get; set; }
+    public int AutomationBatchesCreated { get; set; }
+    public int NextBatchId { get; set; }
+    public List<MaintenanceBatch> MaintenanceBatches { get; } = new List<MaintenanceBatch>();
 }
 

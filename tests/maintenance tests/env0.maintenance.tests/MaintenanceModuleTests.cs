@@ -170,6 +170,51 @@ public sealed class MaintenanceModuleTests
         Assert.Contains(output, line => line.Text == "Automated completions: 1");
     }
 
+    [Fact]
+    public void Handle_RetentionQueue_ShowsUnfiledBatches()
+    {
+        var module = new MaintenanceModule();
+        var session = new SessionState
+        {
+            MaintenanceVariant = MaintenanceVariant.Retention
+        };
+        session.MaintenanceBatches.Add(new MaintenanceBatch
+        {
+            Id = "B-0001",
+            Count = 3,
+            Source = "manual",
+            CreatedTick = 1
+        });
+
+        module.Handle(string.Empty, session).ToList();
+        var output = module.Handle("queue", session).ToList();
+
+        Assert.Contains(output, line => line.Text.Contains("B-0001", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Handle_RetentionSubmit_RemovesFromQueue()
+    {
+        var module = new MaintenanceModule();
+        var session = new SessionState
+        {
+            MaintenanceVariant = MaintenanceVariant.Retention
+        };
+        session.MaintenanceBatches.Add(new MaintenanceBatch
+        {
+            Id = "B-0002",
+            Count = 3,
+            Source = "automation",
+            CreatedTick = 2
+        });
+
+        module.Handle(string.Empty, session).ToList();
+        module.Handle("submit B-0002", session).ToList();
+        var output = module.Handle("queue", session).ToList();
+
+        Assert.Contains(output, line => line.Text == "Queue empty.");
+    }
+
     private static void ProcessUntilBatchPrompt(MaintenanceModule module, SessionState session)
     {
         var safety = 0;

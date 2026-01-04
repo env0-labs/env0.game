@@ -159,6 +159,9 @@ public sealed class RecordsModule : IContextModule
             if (IsTerminalTransition(selectedChoice) && TryGetTerminalDevice(currentSceneId, out var device))
             {
                 state.NextContext = ContextRoute.Maintenance;
+                state.MaintenanceVariant = string.Equals(currentSceneId, "rm_records_retention", StringComparison.OrdinalIgnoreCase)
+                    ? MaintenanceVariant.Retention
+                    : MaintenanceVariant.Processing;
                 state.RecordsReturnSceneId = currentSceneId;
                 state.MaintenanceMachineId = device!.Hostname;
                 state.MaintenanceFilesystem = device.Filesystem;

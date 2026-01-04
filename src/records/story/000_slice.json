@@ -3,7 +3,7 @@
   "Scenes": [
     {
       "Id": "rm_processing_floor",
-      "Text": "Processing Floor Records\n\nRoutine intake logs. Output tags match the current shift.\n\nDoors lead to: records retention, archive hall.",
+      "Text": "Processing Floor Records\n\nRoutine intake logs. Output tags match the current shift. A terminal sits against the wall.\n\nDoors lead to: records retention, archive hall.",
       "IsEnd": false,
       "Choices": [
         {
@@ -21,6 +21,14 @@
           "Noun": "archive hall",
           "Aliases": [ "go archive hall", "enter archive hall", "go to archive hall" ],
           "Effects": [ { "Type": "GotoScene", "Value": "rm_archive_hall" } ]
+        },
+        {
+          "Id": "rm_processing_floor.use_terminal",
+          "Index": 3,
+          "Verb": "use",
+          "Noun": "terminal",
+          "Aliases": [ "use terminal", "use the terminal" ],
+          "Effects": [ { "Type": "GotoScene", "Value": "rm_processing_floor" } ]
         }
       ]
     },
