@@ -330,6 +330,20 @@ public sealed class MaintenanceModule : IContextModule
             case "queue":
                 RenderQueue(output, state);
                 break;
+            case "load":
+                if (parts.Length >= 2 && string.Equals(parts[1], "cli", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddLine(output, "Loading CLI...");
+                    state.NextContext = ContextRoute.Terminal;
+                    state.TerminalReturnContext = ContextRoute.Maintenance;
+                    state.TerminalStartFilesystem = state.MaintenanceFilesystem;
+                    state.IsComplete = true;
+                    state.MaintenanceMachineId = null;
+                    state.MaintenanceFilesystem = null;
+                    return;
+                }
+                RenderRetentionInvalidCommand(output);
+                break;
             case "open":
                 RenderOpen(output, state, parts);
                 break;
@@ -558,6 +572,7 @@ public sealed class MaintenanceModule : IContextModule
         AddLine(output, string.Empty);
         AddLine(output, "Accepted commands:");
         AddLine(output, "- queue");
+        AddLine(output, "- load cli");
         AddLine(output, "- open <batchId>");
         AddLine(output, "- file <batchId> <category>");
         AddLine(output, "- note <batchId> <text>");
