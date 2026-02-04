@@ -2,3 +2,25 @@
 **/bin/
 **/obj/
 
+# User-specific files
+**/*.user
+**/*.rsuser
+**/*.suo
+**/*.userosscache
+**/*.sln.docstates
+
+# IDEs
+.vs/
+.idea/
+
+# Test results
+**/TestResults/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# NuGet
+**/*.nupkg
+**/packages/
+
