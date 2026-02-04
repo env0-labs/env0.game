@@ -189,7 +189,7 @@ public partial class MainWindow : Window
         if (!Terminal.InlineInputActive)
             Terminal.BeginInlineInput();
 
-        Terminal.UpdateInlineInput(_input.Text);
+        Terminal.UpdateInlineInput(_input.Text, caret: _input.Caret);
     }
 
     private void EnsurePromptAndInput()
@@ -206,7 +206,7 @@ public partial class MainWindow : Window
         }
 
         // Ensure any pending input buffer is rendered.
-        Terminal.UpdateInlineInput(_input.Text);
+        Terminal.UpdateInlineInput(_input.Text, caret: _input.Caret);
     }
 
     private static string GetDefaultPrompt(ContextRoute route)

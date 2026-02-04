@@ -15,13 +15,16 @@ public sealed partial class CrtTerminalControl
         InvalidateVisual();
     }
 
-    public void UpdateInlineInput(string text)
+    public void UpdateInlineInput(string text, int caret = -1)
     {
         if (!_inlineActive)
             return;
 
         if (text == null)
             text = string.Empty;
+
+        if (caret < 0) caret = text.Length;
+        _inlineCaret = Math.Clamp(caret, 0, text.Length);
 
         // Safety: if output has advanced the buffer, clamp.
         _inlineLineIndex = Math.Clamp(_inlineLineIndex, 0, _lines.Count - 1);
@@ -70,9 +73,10 @@ public sealed partial class CrtTerminalControl
             return;
         }
 
-        UpdateInlineInput(text ?? string.Empty);
+        UpdateInlineInput(text ?? string.Empty, caret: (text ?? string.Empty).Length);
         _inlineActive = false;
         _inlineLastLen = 0;
+        _inlineCaret = 0;
         NewLine();
         TrimScrollback();
         InvalidateVisual();

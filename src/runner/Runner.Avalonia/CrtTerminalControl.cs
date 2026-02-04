@@ -34,6 +34,7 @@ public sealed partial class CrtTerminalControl : Control
     private int _inlineLineIndex;
     private int _inlineStartCol;
     private int _inlineLastLen;
+    private int _inlineCaret; // caret index within the inline text
 
     private Typeface _typeface = new Typeface("Consolas");
     private double _fontSize = 16;
@@ -226,6 +227,29 @@ public sealed partial class CrtTerminalControl : Control
                 );
 
                 context.DrawText(glyph, new Point(x, y));
+            }
+        }
+
+        // Caret (block) for inline input
+        if (_inlineActive)
+        {
+            var caretCol = _inlineStartCol + _inlineCaret;
+            if (caretCol >= 0 && caretCol < Columns)
+            {
+                // blink at ~2Hz
+                var on = (_ticks % 30) < 15;
+                if (on)
+                {
+                    var x = caretCol * _cellW;
+                    // map line index to visible row
+                    var caretRow = _inlineLineIndex - startLine;
+                    if (caretRow >= 0 && caretRow < Rows)
+                    {
+                        var y = caretRow * _cellH;
+                        var caretRect = new Rect(x, y, _cellW, _cellH);
+                        context.FillRectangle(new SolidColorBrush(Color.FromArgb(120, 0x7d, 0xff, 0xb5)), caretRect);
+                    }
+                }
             }
         }
 
