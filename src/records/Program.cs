@@ -4,7 +4,8 @@ using env0.records.Engine;
 using env0.records.Model;
 using env0.records.Runtime;
 
-Console.WriteLine("env0.records booting");
+Console.WriteLine("env0.records booting (standalone prototype)");
+Console.WriteLine("For the full game entrypoint run: dotnet run --project src/runner");
 Console.WriteLine();
 
 // ------------------------------------------------------------------

@@ -1,5 +1,13 @@
 # env0.game
 
+## Quick start (the actual game entrypoint)
+
+```bash
+./run.sh
+# or
+cd /home/claw/work/env0.game && dotnet run --project src/runner
+```
+
 A modular, text-based systems experience built around maintenance,
 procedural correctness, and delayed interpretation.
 
@@ -102,13 +110,15 @@ From the repo root:
 dotnet build
 ```
 
-### Run the top-level runner
+### Run the game (recommended)
 
 ```bash
+./run.sh
+# or
 dotnet run --project src/runner
 ```
 
-The runner starts in Maintenance by default.
+The runner starts in Maintenance by default and routes between contexts.
 
 ### Run the WPF runner (Windows)
 
@@ -116,15 +126,17 @@ The runner starts in Maintenance by default.
 dotnet run --project src/runner/Runner.Wpf
 ```
 
-### Run context-specific entry points
+### Run standalone / prototype entry points (for dev/testing)
 
-Records can still be run directly:
+Records standalone prototype:
 
 ```bash
+./run-records.sh
+# or
 dotnet run --project src/records
 ```
 
-Terminal has a playground app:
+Terminal playground:
 
 ```bash
 dotnet run --project src/terminal/env0.terminal.playground
